@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, Phone, Mail, Instagram, Facebook } from "lucide-react";
+import { MapPin, Phone, Mail } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -57,14 +57,14 @@ export default function Footer() {
                 aria-label="Instagram"
                 className="w-9 h-9 border border-navy-500 flex items-center justify-center text-cream-300 hover:border-gold-400 hover:text-gold-400 transition-all duration-200"
               >
-                <Instagram size={16} />
+                {/* <Instagram size={16} /> */}
               </a>
               <a
                 href="#"
                 aria-label="Facebook"
                 className="w-9 h-9 border border-navy-500 flex items-center justify-center text-cream-300 hover:border-gold-400 hover:text-gold-400 transition-all duration-200"
               >
-                <Facebook size={16} />
+                {/* <Facebook size={16} /> */}
               </a>
             </div>
           </div>
