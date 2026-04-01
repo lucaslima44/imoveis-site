@@ -154,7 +154,7 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {differentials.map((item, i) => (
               <div key={i} className="text-center group">
-                <div className="w-14 h-14 bg-cream-50 flex items-center justify-center mx-auto mb-5 group-hover:bg-navy-900 transition-colors duration-300">
+                <div className="w-14 h-14 bg-cream-50 flex items-center justify-center mx-auto mb-5 rounded-full">
                   <item.icon
                     size={22}
                     className="text-gold-500 group-hover:text-gold-400 transition-colors duration-300"
