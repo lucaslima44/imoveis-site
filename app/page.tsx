@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowRight, Shield, Clock, Award, TrendingUp } from "lucide-react";
 import { getFeatured } from "@/data/properties";
 import PropertyCard from "@/components/PropertyCard";
+import CountUp from "@/components/CountUp";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,10 +11,10 @@ export const metadata: Metadata = {
 };
 
 const stats = [
-  { value: "1.200+", label: "Imóveis Vendidos" },
-  { value: "15", label: "Anos de Experiência" },
-  { value: "98%", label: "Clientes Satisfeitos" },
-  { value: "500+", label: "Famílias Atendidas" },
+  { end: 1200, prefix: "", suffix: "+", label: "Imóveis Vendidos", duration: 2000 },
+  { end: 15,   prefix: "", suffix: "",  label: "Anos de Experiência", duration: 1400 },
+  { end: 98,   prefix: "", suffix: "%", label: "Clientes Satisfeitos", duration: 1600 },
+  { end: 500,  prefix: "", suffix: "+", label: "Famílias Atendidas", duration: 1800 },
 ];
 
 const differentials = [
@@ -104,8 +105,13 @@ export default function Home() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, i) => (
               <div key={i} className="text-center">
-                <p className="font-display text-4xl font-semibold text-gold-400 mb-1">
-                  {stat.value}
+                <p className="font-display text-4xl font-semibold text-gold-400 mb-1 tabular-nums">
+                  <CountUp
+                    end={stat.end}
+                    prefix={stat.prefix}
+                    suffix={stat.suffix}
+                    duration={stat.duration}
+                  />
                 </p>
                 <p className="font-body text-cream-300 text-sm tracking-wide">
                   {stat.label}
@@ -150,8 +156,7 @@ export default function Home() {
               Nossa Diferença
             </h2>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {differentials.map((item, i) => (
               <div key={i} className="text-center group">
                 <div className="w-14 h-14 bg-cream-50 flex items-center justify-center mx-auto mb-5 rounded-full">

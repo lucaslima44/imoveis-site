@@ -137,7 +137,7 @@ export default function QuemSomos() {
         </div>
       </section>
 
-      {/* Values */}
+       {/* Values */}
       <section className="bg-cream-200 py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="text-center mb-14">
@@ -149,8 +149,8 @@ export default function QuemSomos() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {values.map((v, i) => (
               <div key={i} className="bg-cream-50 p-8 card-shadow group hover:-translate-y-1 transition-all duration-300">
-                <div className="w-12 h-12 bg-navy-900 flex items-center justify-center mb-6 group-hover:bg-gold-500 transition-colors duration-300">
-                  <v.icon size={20} className="text-gold-400 group-hover:text-cream-50 transition-colors duration-300" />
+                <div className="w-12 h-12 bg-navy-900 flex items-center justify-center mb-6 ">
+                  <v.icon size={20} className="text-gold-400" />
                 </div>
                 <h3 className="font-display text-xl font-semibold text-navy-900 mb-3">
                   {v.title}
