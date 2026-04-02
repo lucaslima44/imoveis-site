@@ -7,7 +7,15 @@ import CountUp from "@/components/CountUp";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Home",
+  title: "Imobiliária no Capão Redondo e Parque Fernanda — Zona Sul SP",
+  description:
+    "VA. Lima Imóveis: apartamentos COHAB, casas e imóveis no Capão Redondo e Parque Fernanda, Zona Sul de São Paulo. Próximos ao UNASP, Sonda e Estrada de Itapecerica. Atendimento pelo WhatsApp!",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "VA. Lima Imóveis — Imobiliária no Capão Redondo, Zona Sul SP",
+    description:
+      "Apartamentos COHAB, casas e imóveis no Capão Redondo e Parque Fernanda. Próximos ao UNASP e Estrada de Itapecerica. Fale pelo WhatsApp!",
+  },
 };
 
 const stats = [
@@ -61,7 +69,7 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full">
           <div className="max-w-2xl">
             <p className="section-label mb-4 opacity-0 animate-fade-up">
-              Bem-vindo à Nobre Imóveis
+              Sua imobiliária de confiança no Capão Redondo
             </p>
             <h1 className="heading-display text-cream-50 text-5xl md:text-6xl lg:text-7xl mb-6 opacity-0 animate-fade-up delay-100">
               Encontre o Lugar
@@ -69,8 +77,8 @@ export default function Home() {
               <span className="text-gold-400 italic">Perfeito</span> para Viver
             </h1>
             <p className="font-body text-cream-200 text-lg leading-relaxed mb-10 max-w-lg opacity-0 animate-fade-up delay-200">
-              Há mais de 15 anos conectando pessoas aos seus imóveis ideais. 
-              Transparência e excelência em cada negociação.
+              Capão Redondo, Parque Fernanda e Zona Sul de SP. 
+              Apartamentos COHAB, casas e muito mais — atendimento pelo WhatsApp!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-up delay-300">
               <Link
@@ -156,10 +164,11 @@ export default function Home() {
               Nossa Diferença
             </h2>
           </div>
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {differentials.map((item, i) => (
               <div key={i} className="text-center group">
-                <div className="w-14 h-14 bg-cream-50 flex items-center justify-center mx-auto mb-5 rounded-full">
+                <div className="w-14 h-14 bg-cream-50 flex items-center justify-center mx-auto mb-5 group-hover:bg-navy-900 transition-colors duration-300">
                   <item.icon
                     size={22}
                     className="text-gold-500 group-hover:text-gold-400 transition-colors duration-300"
@@ -200,7 +209,7 @@ export default function Home() {
             mercado imobiliário. Atendimento personalizado e sem compromisso.
           </p>
           <a
-            href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Gostaria de saber mais sobre os imóveis disponíveis.")}`}
+            href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Gostaria de saber mais sobre os imóveis disponíveis no Capão Redondo e Parque Fernanda.")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-gold-500 text-cream-50 px-10 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm hover:bg-gold-400 transition-colors duration-300"

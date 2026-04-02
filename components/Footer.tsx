@@ -40,14 +40,14 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="mb-6">
               <p className="font-display text-3xl font-semibold text-cream-50 tracking-tight">
-                Nobre
+                VA. Lima
               </p>
               <p className="font-body text-[10px] font-medium tracking-[0.3em] text-gold-400 uppercase mt-0.5">
                 Imóveis
               </p>
             </div>
             <p className="text-cream-300 font-body text-sm leading-relaxed max-w-sm mb-8">
-              Há mais de 15 anos realizando sonhos e conectando pessoas aos seus
+              Imobiliária de bairro no Capão Redondo e conectando pessoas aos seus
               imóveis ideais. Transparência, confiança e excelência em cada
               negociação.
             </p>
@@ -97,9 +97,9 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin size={15} className="text-gold-400 mt-0.5 shrink-0" />
                 <span className="text-cream-300 text-sm leading-relaxed">
-                  Av. Paulista, 1000, Sala 210
+                  Estrada de Itapecerica — Parque Fernanda
                   <br />
-                  São Paulo — SP
+                  Capão Redondo — São Paulo, SP
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -114,10 +114,10 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <Mail size={15} className="text-gold-400 shrink-0" />
                 <a
-                  href="mailto:contato@nobre.com.br"
+                  href="mailto:contato@valimaimoveis.com.br"
                   className="text-cream-300 text-sm hover:text-gold-400 transition-colors"
                 >
-                  contato@nobre.com.br
+                  contato@valimaimoveis.com.br
                 </a>
               </li>
             </ul>
@@ -129,9 +129,9 @@ export default function Footer() {
       <div className="border-t border-navy-700">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 py-6 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-cream-300 text-xs">
-            © {year} Nobre Imóveis. Todos os direitos reservados.
+            © {year} VA. Lima Imóveis. Todos os direitos reservados.
           </p>
-          <p className="text-navy-500 text-xs">CRECI: 00000-J</p>
+          <p className="text-navy-500 text-xs">CRECI: SP — Zona Sul (Capão Redondo)</p>
         </div>
       </div>
     </footer>

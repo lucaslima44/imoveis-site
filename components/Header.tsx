@@ -39,8 +39,8 @@ export default function Header() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex flex-col leading-none group">
-            <span className="font-display text-2xl font-semibold text-navy-900 tracking-tight group-hover:text-gold-500 transition-colors duration-300">
-              Nobre
+            <span className="font-display text-xl font-semibold text-navy-900 tracking-tight group-hover:text-gold-500 transition-colors duration-300">
+              VA. Lima
             </span>
             <span className="font-body text-[10px] font-medium tracking-[0.3em] text-gold-500 uppercase">
               Imóveis

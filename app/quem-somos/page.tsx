@@ -5,7 +5,12 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Quem Somos",
   description:
-    "Conheça a Nobre Imóveis — nossa história, valores e o time dedicado a realizar o seu sonho.",
+    "Conheça a VA. Lima Imóveis — imobiliária de bairro no Capão Redondo e Parque Fernanda, Zona Sul de São Paulo. Nossa história, missão e o time dedicado a encontrar o imóvel certo para você.",
+  openGraph: {
+    title: "Quem Somos | VA. Lima Imóveis — Capão Redondo SP",
+    description:
+      "Imobiliária de confiança no Capão Redondo e Parque Fernanda, Zona Sul de SP. Conheça nossa história e nosso time.",
+  },
 };
 
 const values = [
@@ -54,7 +59,7 @@ const team = [
 ];
 
 const timeline = [
-  { year: "2009", event: "Fundação da Nobre Imóveis em São Paulo" },
+  { year: "2009", event: "Fundação da VA. Lima Imóveis no Capão Redondo" },
   { year: "2012", event: "Abertura da segunda unidade e expansão para o interior" },
   { year: "2016", event: "Prêmio de melhor imobiliária regional pelo CRECI-SP" },
   { year: "2020", event: "Digitalização completa e lançamento do portal online" },
@@ -97,9 +102,9 @@ export default function QuemSomos() {
             <div className="w-12 h-0.5 bg-gold-500 mb-8" />
             <div className="space-y-4 font-body text-navy-600 text-[15px] leading-relaxed">
               <p>
-                A Nobre Imóveis nasceu em 2009 com uma missão clara: oferecer um
+                A VA. Lima Imóveis nasceu com uma missão clara com uma missão clara: oferecer um
                 atendimento imobiliário diferenciado, baseado em transparência,
-                confiança e resultado. Fundada por Ricardo Nobre, a empresa
+                confiança e resultado. Fundada com foco no atendimento ao bairro,
                 começou com dois corretores e um sonho grande.
               </p>
               <p>
@@ -119,7 +124,7 @@ export default function QuemSomos() {
             <div className="relative h-80 lg:h-[480px] overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80"
-                alt="Equipe Nobre Imóveis"
+                alt="Equipe VA. Lima Imóveis"
                 fill
                 className="object-cover"
               />
@@ -137,7 +142,7 @@ export default function QuemSomos() {
         </div>
       </section>
 
-       {/* Values */}
+      {/* Values */}
       <section className="bg-cream-200 py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="text-center mb-14">
@@ -149,8 +154,8 @@ export default function QuemSomos() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {values.map((v, i) => (
               <div key={i} className="bg-cream-50 p-8 card-shadow group hover:-translate-y-1 transition-all duration-300">
-                <div className="w-12 h-12 bg-navy-900 flex items-center justify-center mb-6 ">
-                  <v.icon size={20} className="text-gold-400" />
+                <div className="w-12 h-12 bg-navy-900 flex items-center justify-center mb-6 group-hover:bg-gold-500 transition-colors duration-300">
+                  <v.icon size={20} className="text-gold-400 group-hover:text-cream-50 transition-colors duration-300" />
                 </div>
                 <h3 className="font-display text-xl font-semibold text-navy-900 mb-3">
                   {v.title}

@@ -4,16 +4,16 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Localização",
   description:
-    "Encontre a Nobre Imóveis. Estamos na Av. Paulista, no coração de São Paulo.",
+    "Encontre a VA. Lima Imóveis no Capão Redondo — Parque Fernanda, Zona Sul de SP. Próximos ao UNASP e Estrada de Itapecerica.",
 };
 
 const contactInfo = [
   {
     icon: MapPin,
     label: "Endereço",
-    value: "Av. Paulista, 1000, Sala 210",
-    sub: "Bela Vista — São Paulo, SP — CEP 01310-100",
-    href: "https://maps.google.com/?q=Av.+Paulista+1000+São+Paulo",
+    value: "Estrada de Itapecerica",
+    sub: "Parque Fernanda — Capão Redondo, SP",
+    href: "https://maps.google.com/?q=Estrada+de+Itapecerica+Capão+Redondo+São+Paulo",
   },
   {
     icon: Phone,
@@ -25,9 +25,9 @@ const contactInfo = [
   {
     icon: Mail,
     label: "E-mail",
-    value: "contato@nobre.com.br",
+    value: "contato@valimaimoveis.com.br",
     sub: "Respondemos em até 2h",
-    href: "mailto:contato@nobre.com.br",
+    href: "mailto:contato@valimaimoveis.com.br",
   },
   {
     icon: Clock,
@@ -42,19 +42,20 @@ const howToArrive = [
   {
     icon: Train,
     mode: "Metrô",
-    desc: 'Linha 2-Verde (Paulista) ou Linha 4-Amarela (Paulista). Saída pela Consolação.',
+    desc: 'Linha 5-Lilás (Capão Redondo). Desça na estação Capão Redondo e pegue um ônibus até a Estrada de Itapecerica.',
   },
   {
     icon: Car,
     mode: "Carro / App",
-    desc: 'Estacionamento no próprio edifício. Entrada pela Rua da Consolação.',
+    desc: 'Acesso pela Estrada de Itapecerica. Próximo ao Sonda Supermercados e UNASP.',
   },
 ];
 
 export default function LocalizacaoPage() {
-  // Embed Google Maps via iframe (no API key needed for basic embed)
+  // Embed Google Maps — Capão Redondo / Parque Fernanda, Estrada de Itapecerica
+  // ← Para usar seu endereço exato: Google Maps → Compartilhar → Incorporar um mapa → copie o src do iframe
   const mapSrc =
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.0975571069487!2d-46.65581372380577!3d-23.56489566122584!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%201000%20-%20Bela%20Vista%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2001310-100!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr";
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3659.8177!2d-46.7596!3d-23.6794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce4f1c3c1c1c1c%3A0x0!2sEstrada%20de%20Itapecerica%2C%20Cap%C3%A3o%20Redondo%2C%20S%C3%A3o%20Paulo!5e0!3m2!1spt-BR!2sbr!4v1700000000001!5m2!1spt-BR!2sbr";
 
   return (
     <div className="bg-cream-100 min-h-screen">
@@ -85,11 +86,11 @@ export default function LocalizacaoPage() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Localização Nobre Imóveis"
+                title="Localização VA. Lima Imóveis — Capão Redondo SP"
               />
             </div>
             <a
-              href="https://maps.google.com/?q=Av.+Paulista+1000+São+Paulo"
+              href="https://maps.google.com/?q=Estrada+de+Itapecerica+Capão+Redondo+São+Paulo"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 inline-flex items-center gap-2 text-sm font-body text-navy-500 hover:text-gold-500 transition-colors duration-200"
@@ -183,7 +184,7 @@ export default function LocalizacaoPage() {
             </p>
           </div>
           <a
-            href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Gostaria de agendar uma visita.")}`}
+            href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Gostaria de agendar uma visita a um imóvel no Capão Redondo.")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="shrink-0 inline-flex items-center gap-2 px-8 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm text-cream-50 hover:opacity-90 transition-opacity"
