@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyPassword, signToken, setSessionCookie } from "@/lib/auth";
+import { verifyPassword, signToken } from "@/lib/auth";
 
 // Proteção contra brute-force: rate limit simples em memória (reinicia ao reiniciar o servidor)
 const attempts = new Map<string, { count: number; resetAt: number }>();

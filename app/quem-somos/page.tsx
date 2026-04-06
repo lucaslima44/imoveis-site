@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Users, Target, Eye, Heart } from "lucide-react";
+import { Target, Eye, Heart } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

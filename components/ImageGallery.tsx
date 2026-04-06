@@ -151,6 +151,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
 
             {/* Image */}
             <div className="relative overflow-auto max-w-[90vw] max-h-[85vh] flex items-center justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={images[currentIndex]}
                 alt={`${title} - foto ${currentIndex + 1}`}
@@ -195,6 +196,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                       : "opacity-50 hover:opacity-80"
                   }`}
                 >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={img}
                     alt={`miniatura ${i + 1}`}
