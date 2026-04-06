@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { findByIdAdmin, updateProperty, deleteProperty } from "@/lib/properties-store";
+import { Property } from "@/types";
 
 interface Params { params: { id: string } }
 
@@ -11,29 +12,25 @@ export async function GET(_req: NextRequest, { params }: Params) {
 }
 
 export async function PUT(req: NextRequest, { params }: Params) {
-  let body: Record<string, unknown>;
+  let body: Partial<Omit<Property, "id">>;
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: "JSON inválido." }, { status: 400 });
   }
 
-  delete body.id;
-
   if (body.type && body.type !== "apartamento" && body.type !== "casa") {
     return NextResponse.json({ error: "Tipo inválido." }, { status: 422 });
   }
 
-  // Garante que featured é boolean
   if (body.featured !== undefined) {
-    body.featured = body.featured === true || body.featured === "true";
+    body.featured = body.featured === true;
   }
 
   try {
-    const updated = await updateProperty(params.id, body as never);
+    const updated = await updateProperty(params.id, body);
     if (!updated) return NextResponse.json({ error: "Não encontrado." }, { status: 404 });
 
-    // Invalida cache do frontend imediatamente
     revalidatePath("/");
     revalidatePath("/imoveis");
     revalidatePath(`/imoveis/${params.id}`);
@@ -48,7 +45,6 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
   try {
     await deleteProperty(params.id);
 
-    // Invalida cache do frontend imediatamente
     revalidatePath("/");
     revalidatePath("/imoveis");
     revalidatePath(`/imoveis/${params.id}`);

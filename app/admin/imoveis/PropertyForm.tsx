@@ -83,8 +83,7 @@ export default function PropertyForm({
 
   const [form, setForm] = useState<FormData>(() => {
     if (!initialData) return emptyForm;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, images, ...rest } = initialData;
+    const { id: _id, images: _images, ...rest } = initialData;
     return rest as FormData;
   });
 
