@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyPassword, signToken } from "@/lib/auth";
+import { signToken } from "@/lib/auth"; // Verifique se essa função existe no seu lib/auth
+import { createClient } from '@supabase/supabase-js';
+import bcrypt from 'bcryptjs';
 
-// Proteção contra brute-force: rate limit simples em memória (reinicia ao reiniciar o servidor)
+// 1. Configuração do cliente Admin do Supabase (ignora RLS)
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY! 
+);
+
+// 2. Proteção contra brute-force (Rate Limit simples)
 const attempts = new Map<string, { count: number; resetAt: number }>();
 const MAX_ATTEMPTS = 5;
-const WINDOW_MS = 15 * 60 * 1000; // 15 minutos
+const WINDOW_MS = 15 * 60 * 1000;
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
@@ -16,16 +24,12 @@ function isRateLimited(ip: string): boolean {
   }
 
   record.count++;
-  if (record.count > MAX_ATTEMPTS) return true;
-  return false;
+  return record.count > MAX_ATTEMPTS;
 }
 
 export async function POST(req: NextRequest) {
-  // Obtém IP real (considera proxy/Vercel)
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
-    req.headers.get("x-real-ip") ??
-    "unknown";
+  // A. Identificação do IP para Rate Limit
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
 
   if (isRateLimited(ip)) {
     return NextResponse.json(
@@ -34,8 +38,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // B. Validação do Body
   let body: { username?: string; password?: string };
-
   try {
     body = await req.json();
   } catch {
@@ -43,45 +47,43 @@ export async function POST(req: NextRequest) {
   }
 
   const { username, password } = body;
-
-  if (!username || !password || typeof username !== "string" || typeof password !== "string") {
+  if (!username || !password) {
     return NextResponse.json({ error: "Credenciais ausentes." }, { status: 400 });
   }
 
-  // Trunca para evitar ataques de payload gigante
-  const safeUsername = username.slice(0, 64);
-  const safePassword = password.slice(0, 256);
+  // C. Busca do usuário no Supabase
+  // Buscamos na tabela 'usuarios_admin' que você criou
+  const { data: admin, error } = await supabaseAdmin
+    .from('usuarios_admin')
+    .select('*')
+    .eq('usuario', username.slice(0, 64)) // Truncando por segurança
+    .single();
 
-  const expectedUsername = process.env.ADMIN_USERNAME;
-  const passwordHash = process.env.ADMIN_PASSWORD_HASH;
-
-  if (!expectedUsername || !passwordHash) {
-    console.error("[Admin Auth] ADMIN_USERNAME ou ADMIN_PASSWORD_HASH não configurados no .env");
-    return NextResponse.json({ error: "Servidor não configurado." }, { status: 500 });
+  // D. Verificação de credenciais (Anti-timing attack: sempre fazemos o check se o usuário existe)
+  let passwordOk = false;
+  if (admin && !error) {
+    passwordOk = await bcrypt.compare(password.slice(0, 256), admin.senha_hash);
   }
 
-  const usernameOk = safeUsername === expectedUsername;
-  const passwordOk = await verifyPassword(safePassword, passwordHash);
-
-  // Mesmo tempo de resposta para usuário errado ou senha errada (anti-timing attack)
-  if (!usernameOk || !passwordOk) {
+  if (!admin || !passwordOk) {
     return NextResponse.json({ error: "Credenciais inválidas." }, { status: 401 });
   }
 
-  // Zera tentativas após login bem-sucedido
+  // E. Sucesso: Limpa tentativas e gera o Token
   attempts.delete(ip);
 
-  const token = await signToken({ username: safeUsername });
+  // Gera o JWT usando sua função do lib/auth
+  const token = await signToken({ username: admin.usuario });
 
   const response = NextResponse.json({ ok: true });
 
-  // Define cookie httpOnly diretamente na resposta
+  // F. Define o Cookie de Sessão
   response.cookies.set("admin_session", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
-    path: "/admin",
-    maxAge: 60 * 60 * 8,
+    path: "/", // Deixei como '/' para garantir que o middleware ou outras rotas acessem
+    maxAge: 60 * 60 * 8, // 8 horas
   });
 
   return response;
