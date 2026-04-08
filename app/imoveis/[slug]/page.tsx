@@ -3,13 +3,14 @@ export const revalidate = 0;
 
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { BedDouble, Bath, Car, Maximize2, MapPin, ArrowLeft, Phone } from "lucide-react";
+import { BedDouble, Bath, Car, Maximize2, MapPin, ArrowLeft, Phone, Hash } from "lucide-react";
 import { findById } from "@/lib/properties-store";
+import { extractIdFromSlug } from "@/lib/slug";
 import { Property } from "@/types";
 import ImageGallery from "@/components/ImageGallery";
 import type { Metadata } from "next";
 
-interface Props { params: { id: string } }
+interface Props { params: { slug: string } }
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 0 }).format(price);
@@ -22,7 +23,8 @@ const CONTRACT_LABEL: Record<string, string> = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const p = await findById(params.id);
+  const id = extractIdFromSlug(params.slug);
+  const p = await findById(id);
   if (!p) return { title: "Imóvel não encontrado" };
   return { title: p.title, description: p.description.slice(0, 160) };
 }
@@ -60,6 +62,11 @@ function Detail({ property }: { property: Property }) {
                   {CONTRACT_LABEL[property.contractType] ?? property.contractType}
                 </span>
               )}
+              {/* ID do imóvel */}
+              <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-[10px] font-medium tracking-[0.15em] uppercase px-3 py-1.5">
+                <Hash size={10} />
+                {property.id}
+              </span>
             </div>
             <h1 className="font-display text-3xl md:text-4xl font-semibold text-navy-900 leading-tight mb-4">{property.title}</h1>
             <div className="flex items-start gap-2 mb-8">
@@ -92,6 +99,7 @@ function Detail({ property }: { property: Property }) {
               <div className="h-px bg-cream-200 mb-6" />
               <ul className="space-y-0 mb-8">
                 {[
+                  ["Ref.", `#${property.id}`],
                   ["Tipo", property.type === "apartamento" ? "Apartamento" : "Casa"],
                   ["Negociação", property.contractType ? (CONTRACT_LABEL[property.contractType] ?? "-") : "Venda"],
                   ["Área", `${property.area} m²`],
@@ -101,7 +109,7 @@ function Detail({ property }: { property: Property }) {
                 ].map(([label, val]) => (
                   <li key={label} className="flex justify-between items-center text-sm font-body border-b border-cream-200 py-3 last:border-0">
                     <span className="text-navy-500">{label}</span>
-                    <span className="text-navy-900 font-medium">{val}</span>
+                    <span className={`text-navy-900 font-medium ${label === "Ref." ? "font-mono text-xs tracking-wider" : ""}`}>{val}</span>
                   </li>
                 ))}
               </ul>
@@ -123,7 +131,9 @@ function Detail({ property }: { property: Property }) {
 }
 
 export default async function PropertyPage({ params }: Props) {
-  const property = await findById(params.id);
+  // Extrai o ID numérico do slug (ex: "apartamento_parque_fernanda_42" → "42")
+  const id = extractIdFromSlug(params.slug);
+  const property = await findById(id);
   if (!property) notFound();
   return <Detail property={property} />;
 }

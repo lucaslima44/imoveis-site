@@ -4,6 +4,8 @@ import { readProperties } from "@/lib/properties-store";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Dashboard" };
+export const dynamic = "force-dynamic";
+export const revalidate = 0; // Garante que a página sempre busque a versão mais recente do banco (sem F5)
 
 export default async function AdminDashboard() {
   let properties: Awaited<ReturnType<typeof readProperties>> = [];
@@ -13,24 +15,60 @@ export default async function AdminDashboard() {
     properties = [];
   }
 
-  const total       = properties.length;
-  const apartamentos = properties.filter((p) => p.type === "apartamento").length;
-  const casas        = properties.filter((p) => p.type === "casa").length;
-  const destaques    = properties.filter((p) => p.featured).length;
+  const total = properties.length;
+  const apartamentos = properties.filter(
+    (p) => p.type === "apartamento",
+  ).length;
+  const casas = properties.filter((p) => p.type === "casa").length;
+  const destaques = properties.filter((p) => p.featured).length;
 
   const stats = [
-    { label: "Total de Imóveis", value: total,       icon: Building2, color: "bg-navy-900 text-cream-50" },
-    { label: "Apartamentos",     value: apartamentos, icon: Building2, color: "bg-gold-500 text-cream-50" },
-    { label: "Casas",            value: casas,        icon: Home,      color: "bg-navy-700 text-cream-50" },
-    { label: "Em Destaque",      value: destaques,    icon: Star,      color: "bg-gold-400 text-cream-50" },
+    {
+      label: "Total de Imóveis",
+      value: total,
+      icon: Building2,
+      color: "bg-navy-900 text-cream-50",
+    },
+    {
+      label: "Apartamentos",
+      value: apartamentos,
+      icon: Building2,
+      color: "bg-gold-500 text-cream-50",
+    },
+    {
+      label: "Casas",
+      value: casas,
+      icon: Home,
+      color: "bg-navy-700 text-cream-50",
+    },
+    {
+      label: "Em Destaque",
+      value: destaques,
+      icon: Star,
+      color: "bg-gold-400 text-cream-50",
+    },
   ];
 
   const recent = [...properties].slice(0, 5);
 
+  const STATUS_STYLE: Record<string, string> = {
+    disponivel: "bg-emerald-50 text-emerald-600",
+    reservado: "bg-amber-50 text-amber-600",
+    vendido: "bg-red-50 text-red-500",
+  };
+
+  const STATUS_LABEL: Record<string, string> = {
+    disponivel: "Disponível",
+    reservado: "Reservado",
+    vendido: "Vendido",
+  };
+
   return (
     <div>
       <div className="mb-8">
-        <h1 className="font-display text-2xl font-semibold text-navy-900">Dashboard</h1>
+        <h1 className="font-display text-2xl font-semibold text-navy-900">
+          Dashboard
+        </h1>
         <p className="font-body text-gray-500 text-sm mt-1">
           Visão geral dos imóveis cadastrados.
         </p>
@@ -57,10 +95,17 @@ export default async function AdminDashboard() {
             <PlusCircle size={18} className="text-gold-400" />
           </div>
           <div>
-            <p className="font-body text-sm font-semibold text-navy-900">Cadastrar Imóvel</p>
-            <p className="font-body text-xs text-gray-500 mt-0.5">Adicionar novo imóvel ao portfólio</p>
+            <p className="font-body text-sm font-semibold text-navy-900">
+              Cadastrar Imóvel
+            </p>
+            <p className="font-body text-xs text-gray-500 mt-0.5">
+              Adicionar novo imóvel ao portfólio
+            </p>
           </div>
-          <ArrowRight size={16} className="ml-auto text-gray-300 group-hover:text-gold-400 transition-colors" />
+          <ArrowRight
+            size={16}
+            className="ml-auto text-gray-300 group-hover:text-gold-400 transition-colors"
+          />
         </Link>
 
         <Link
@@ -71,17 +116,26 @@ export default async function AdminDashboard() {
             <Building2 size={18} className="text-gold-400" />
           </div>
           <div>
-            <p className="font-body text-sm font-semibold text-navy-900">Gerenciar Imóveis</p>
-            <p className="font-body text-xs text-gray-500 mt-0.5">Editar, remover e gerenciar fotos</p>
+            <p className="font-body text-sm font-semibold text-navy-900">
+              Gerenciar Imóveis
+            </p>
+            <p className="font-body text-xs text-gray-500 mt-0.5">
+              Editar, remover e gerenciar fotos
+            </p>
           </div>
-          <ArrowRight size={16} className="ml-auto text-gray-300 group-hover:text-gold-400 transition-colors" />
+          <ArrowRight
+            size={16}
+            className="ml-auto text-gray-300 group-hover:text-gold-400 transition-colors"
+          />
         </Link>
       </div>
 
       {/* Recentes */}
       <div className="bg-white border border-gray-200">
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <h2 className="font-body text-sm font-semibold text-navy-900">Imóveis Recentes</h2>
+          <h2 className="font-body text-sm font-semibold text-navy-900">
+            Imóveis Recentes
+          </h2>
           <Link
             href="/admin/imoveis"
             className="font-body text-xs text-gold-500 hover:text-gold-600 transition-colors"
@@ -96,11 +150,14 @@ export default async function AdminDashboard() {
             </p>
           ) : (
             recent.map((p) => (
-              <div key={p.id} className="flex items-center gap-4 px-5 py-3">
+              <div key={p.id} className="flex items-center gap-3 px-5 py-3">
+                {/* Thumbnail */}
                 <div
                   className="w-10 h-10 shrink-0 bg-cover bg-center bg-gray-100"
                   style={{
-                    backgroundImage: p.images[0] ? `url(${p.images[0]})` : undefined,
+                    backgroundImage: p.images[0]
+                      ? `url(${p.images[0]})`
+                      : undefined,
                   }}
                 >
                   {!p.images[0] && (
@@ -109,14 +166,26 @@ export default async function AdminDashboard() {
                     </div>
                   )}
                 </div>
+
+                {/* Info */}
                 <div className="flex-1 min-w-0">
-                  <p className="font-body text-sm font-medium text-navy-900 truncate">
-                    {p.title}
-                  </p>
+                  <div className="flex items-center gap-1.5">
+                    <p className="font-body text-sm font-medium text-navy-900 truncate">
+                      {p.title}
+                    </p>
+                    {/* ⭐ Badge de destaque */}
+                    {String(p.featured) === "true" && (
+                      <span className="text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 border border-amber-300 text-amber-700 bg-amber-50 uppercase w-max">
+                        ⭐ DESTAQUE
+                      </span>
+                    )}
+                  </div>
                   <p className="font-body text-xs text-gray-400 mt-0.5">
                     {p.neighborhood}, {p.city}
                   </p>
                 </div>
+
+                {/* Tipo */}
                 <span
                   className={`shrink-0 text-[10px] font-medium px-2 py-1 font-body uppercase tracking-wide ${
                     p.type === "apartamento"
@@ -126,6 +195,18 @@ export default async function AdminDashboard() {
                 >
                   {p.type}
                 </span>
+
+                {/* Status */}
+                <span
+                  className={`shrink-0 text-[10px] font-medium px-2 py-1 font-body uppercase tracking-wide ${
+                    STATUS_STYLE[p.status ?? "disponivel"] ??
+                    "bg-gray-50 text-gray-500"
+                  }`}
+                >
+                  {STATUS_LABEL[p.status ?? "disponivel"] ?? p.status}
+                </span>
+
+                {/* Editar */}
                 <Link
                   href={`/admin/imoveis/${p.id}/editar`}
                   className="shrink-0 text-xs font-body text-gold-500 hover:text-gold-600 transition-colors"

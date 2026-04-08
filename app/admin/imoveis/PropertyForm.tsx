@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Property } from "@/types";
-import { Save, ArrowLeft, Upload, X, Star, Loader2 } from "lucide-react";
+import { Save, ArrowLeft, Upload, X, Star, Loader2, GripVertical } from "lucide-react";
 import Image from "next/image";
 
 type FormData = Omit<Property, "id" | "images">;
@@ -87,12 +87,17 @@ export default function PropertyForm({
     return rest as FormData;
   });
 
-  const [images, setImages]         = useState<string[]>(initialData?.images ?? []);
-  const [errors, setErrors]         = useState<Partial<Record<keyof FormData, string>>>({});
-  const [saving, setSaving]         = useState(false);
-  const [uploading, setUploading]   = useState(false);
-  const [removing, setRemoving]     = useState<string | null>(null);
+  // Inicializa sempre com as imagens do imóvel (garante que não sumam)
+  const [images, setImages]           = useState<string[]>(() => initialData?.images ?? []);
+  const [errors, setErrors]           = useState<Partial<Record<keyof FormData, string>>>({});
+  const [saving, setSaving]           = useState(false);
+  const [uploading, setUploading]     = useState(false);
+  const [removing, setRemoving]       = useState<string | null>(null);
   const [globalError, setGlobalError] = useState("");
+
+  // Drag-to-reorder state
+  const dragIndexRef  = useRef<number | null>(null);
+  const [dragOver, setDragOver] = useState<number | null>(null);
 
   function update(field: keyof FormData, value: unknown) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -101,13 +106,13 @@ export default function PropertyForm({
 
   function validate(): boolean {
     const errs: Partial<Record<keyof FormData, string>> = {};
-    if (!form.title.trim())        errs.title       = "Título obrigatório.";
-    if (!form.address.trim())      errs.address     = "Endereço obrigatório.";
+    if (!form.title.trim())        errs.title        = "Título obrigatório.";
+    if (!form.address.trim())      errs.address      = "Endereço obrigatório.";
     if (!form.neighborhood.trim()) errs.neighborhood = "Bairro obrigatório.";
-    if (!form.city.trim())         errs.city        = "Cidade obrigatória.";
+    if (!form.city.trim())         errs.city         = "Cidade obrigatória.";
     if (!form.description.trim())  errs.description  = "Descrição obrigatória.";
-    if (Number(form.price) <= 0)   errs.price       = "Valor deve ser maior que zero.";
-    if (Number(form.area)  <= 0)   errs.area        = "Área deve ser maior que zero.";
+    if (Number(form.price) <= 0)   errs.price        = "Valor deve ser maior que zero.";
+    if (Number(form.area)  <= 0)   errs.area         = "Área deve ser maior que zero.";
     setErrors(errs);
     return Object.keys(errs).length === 0;
   }
@@ -128,7 +133,7 @@ export default function PropertyForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          images,
+          images,          // sempre envia as imagens atuais (incluindo ordem)
           featured: form.featured === true,
           price: Number(form.price),
           area: Number(form.area),
@@ -139,8 +144,7 @@ export default function PropertyForm({
       });
 
       if (res.ok) {
-        router.push("/admin/imoveis");
-        router.refresh();
+        window.location.href = "/admin/imoveis";
       } else {
         const d = await res.json();
         setGlobalError(d.error ?? "Erro ao salvar.");
@@ -216,6 +220,40 @@ export default function PropertyForm({
       setRemoving(null);
     }
   }
+
+  // ── Drag-to-reorder handlers ──────────────────────────────────────────────
+  function handleDragStart(index: number) {
+    dragIndexRef.current = index;
+  }
+
+  function handleDragEnter(index: number) {
+    setDragOver(index);
+  }
+
+  function handleDragOver(e: React.DragEvent) {
+    e.preventDefault(); // necessário para permitir drop
+  }
+
+  function handleDrop(dropIndex: number) {
+    const dragIndex = dragIndexRef.current;
+    if (dragIndex === null || dragIndex === dropIndex) {
+      setDragOver(null);
+      dragIndexRef.current = null;
+      return;
+    }
+    const newImages = [...images];
+    const [dragged] = newImages.splice(dragIndex, 1);
+    newImages.splice(dropIndex, 0, dragged);
+    setImages(newImages);
+    dragIndexRef.current = null;
+    setDragOver(null);
+  }
+
+  function handleDragEnd() {
+    dragIndexRef.current = null;
+    setDragOver(null);
+  }
+  // ─────────────────────────────────────────────────────────────────────────
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -413,9 +451,12 @@ export default function PropertyForm({
       {/* ── Fotos (só no modo editar) ── */}
       {mode === "edit" && initialData && (
         <div className="bg-white border border-gray-200 p-6">
-          <h2 className="font-body text-xs font-semibold text-gray-500 uppercase tracking-[0.15em] mb-5 pb-3 border-b border-gray-100">
+          <h2 className="font-body text-xs font-semibold text-gray-500 uppercase tracking-[0.15em] mb-1 pb-3 border-b border-gray-100">
             Fotos
           </h2>
+          <p className="font-body text-xs text-gray-400 mb-4 pt-3">
+            Arraste as fotos para reordenar · A 1ª imagem é a capa do card.
+          </p>
 
           {/* Botão de upload */}
           <label
@@ -440,7 +481,7 @@ export default function PropertyForm({
             />
           </label>
 
-          {/* Grid de fotos */}
+          {/* Grid de fotos com drag-to-reorder */}
           {images.length === 0 ? (
             <p className="font-body text-sm text-gray-400">
               Nenhuma foto adicionada.
@@ -448,13 +489,26 @@ export default function PropertyForm({
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {images.map((url, i) => (
-                <div key={url} className="relative group">
+                <div
+                  key={url}
+                  draggable
+                  onDragStart={() => handleDragStart(i)}
+                  onDragEnter={() => handleDragEnter(i)}
+                  onDragOver={handleDragOver}
+                  onDrop={() => handleDrop(i)}
+                  onDragEnd={handleDragEnd}
+                  className={`relative group cursor-grab active:cursor-grabbing transition-all duration-150 ${
+                    dragOver === i
+                      ? "ring-2 ring-gold-400 scale-[0.97] opacity-80"
+                      : ""
+                  }`}
+                >
                   <div className="relative aspect-video overflow-hidden bg-gray-100">
                     <Image
                       src={url}
                       alt={`Foto ${i + 1}`}
                       fill
-                      className="object-cover"
+                      className="object-cover pointer-events-none"
                       sizes="200px"
                       unoptimized
                     />
@@ -465,6 +519,12 @@ export default function PropertyForm({
                     )}
                   </div>
 
+                  {/* Handle de drag (canto superior esquerdo) */}
+                  <div className="absolute top-1.5 left-1.5 w-6 h-6 bg-black/40 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <GripVertical size={12} />
+                  </div>
+
+                  {/* Botão remover (canto superior direito) */}
                   <button
                     type="button"
                     onClick={() => handlePhotoRemove(url)}
@@ -475,9 +535,14 @@ export default function PropertyForm({
                     <X size={12} />
                   </button>
 
-                  {i === 0 && (
+                  {/* Badge de posição */}
+                  {i === 0 ? (
                     <span className="absolute bottom-1.5 left-1.5 text-[9px] bg-navy-900/80 text-cream-50 px-1.5 py-0.5 font-body uppercase tracking-wide">
                       Capa
+                    </span>
+                  ) : (
+                    <span className="absolute bottom-1.5 left-1.5 text-[9px] bg-black/40 text-white px-1.5 py-0.5 font-body opacity-0 group-hover:opacity-100 transition-opacity">
+                      {i + 1}ª foto
                     </span>
                   )}
                 </div>
@@ -486,7 +551,7 @@ export default function PropertyForm({
           )}
 
           <p className="font-body text-xs text-gray-400 mt-3">
-            JPG, PNG, WEBP ou AVIF · Máx 8 MB · A 1ª imagem é a capa do card.
+            JPG, PNG, WEBP ou AVIF · Máx 8 MB · Salve após reordenar para confirmar.
           </p>
         </div>
       )}

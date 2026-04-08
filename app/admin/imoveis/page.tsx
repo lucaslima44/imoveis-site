@@ -1,9 +1,17 @@
 import Link from "next/link";
 import { readProperties } from "@/lib/properties-store";
-import { Building2, Pencil, PlusCircle, Image as ImageIcon } from "lucide-react";
+import {
+  Building2,
+  Pencil,
+  PlusCircle,
+  Image as ImageIcon,
+} from "lucide-react";
 import type { Metadata } from "next";
 import DeletePropertyButton from "./DeletePropertyButton";
 
+// Garante que a página sempre busque a versão mais recente do banco (sem F5)
+export const dynamic = "force-dynamic";
+export const revalidate = 0; // ADICIONE ESTA LINHA AQUI
 export const metadata: Metadata = { title: "Imóveis" };
 
 function formatPrice(price: number) {
@@ -16,8 +24,14 @@ function formatPrice(price: number) {
 
 const STATUS: Record<string, { label: string; cls: string }> = {
   disponivel: { label: "Disponível", cls: "bg-emerald-50 text-emerald-600" },
-  reservado:  { label: "Reservado",  cls: "bg-amber-50 text-amber-600"   },
-  vendido:    { label: "Vendido",    cls: "bg-red-50 text-red-500"       },
+  reservado: { label: "Reservado", cls: "bg-amber-50 text-amber-600" },
+  vendido: { label: "Vendido", cls: "bg-red-50 text-red-500" },
+};
+
+const NEGOCIO: Record<string, string> = {
+  venda: "Venda",
+  locacao: "Locação",
+  venda_locacao: "Venda / Locação",
 };
 
 export default async function AdminImoveisPage() {
@@ -32,7 +46,9 @@ export default async function AdminImoveisPage() {
     <div>
       <div className="flex items-start justify-between mb-8 gap-4">
         <div>
-          <h1 className="font-display text-2xl font-semibold text-navy-900">Imóveis</h1>
+          <h1 className="font-display text-2xl font-semibold text-navy-900">
+            Imóveis
+          </h1>
           <p className="font-body text-gray-500 text-sm mt-1">
             {properties.length} imóvel
             {properties.length !== 1 ? "is" : ""} cadastrado
@@ -67,19 +83,39 @@ export default async function AdminImoveisPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50">
-                  <th className="text-left px-4 py-3 font-body text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Imóvel</th>
-                  <th className="text-left px-4 py-3 font-body text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Tipo</th>
-                  <th className="text-left px-4 py-3 font-body text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell">Valor</th>
-                  <th className="text-left px-4 py-3 font-body text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell">Fotos</th>
-                  <th className="text-left px-4 py-3 font-body text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Status</th>
+                  <th className="text-left px-4 py-3 font-body text-[11px] font-semibold text-gray-500 uppercase tracking-wide">
+                    Imóvel
+                  </th>
+                  <th className="text-left px-4 py-3 font-body text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">
+                    Tipo
+                  </th>
+                  <th className="text-left px-4 py-3 font-body text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">
+                    Negócio
+                  </th>
+                  <th className="text-left px-4 py-3 font-body text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell">
+                    Valor
+                  </th>
+                  <th className="text-left px-4 py-3 font-body text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell">
+                    Fotos
+                  </th>
+                  <th className="text-left px-4 py-3 font-body text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">
+                    Status
+                  </th>
+                  <th className="text-left px-4 py-3 font-body text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">
+                    Destacado
+                  </th>
                   <th className="px-4 py-3" />
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {properties.map((p) => {
-                  const st = STATUS[p.status ?? "disponivel"] ?? STATUS.disponivel;
+                  const st =
+                    STATUS[p.status ?? "disponivel"] ?? STATUS.disponivel;
                   return (
-                    <tr key={p.id} className="hover:bg-gray-50/50 transition-colors">
+                    <tr
+                      key={p.id}
+                      className="hover:bg-gray-50/50 transition-colors"
+                    >
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <div
@@ -92,7 +128,10 @@ export default async function AdminImoveisPage() {
                           >
                             {!p.images[0] && (
                               <div className="w-full h-full flex items-center justify-center">
-                                <ImageIcon size={14} className="text-gray-300" />
+                                <ImageIcon
+                                  size={14}
+                                  className="text-gray-300"
+                                />
                               </div>
                             )}
                           </div>
@@ -101,7 +140,7 @@ export default async function AdminImoveisPage() {
                               {p.title}
                             </p>
                             <p className="font-body text-xs text-gray-400 mt-0.5">
-                              {p.neighborhood}, {p.city}
+                              {p.address}, {p.neighborhood}, {p.state}
                             </p>
                           </div>
                         </div>
@@ -117,6 +156,11 @@ export default async function AdminImoveisPage() {
                           {p.type}
                         </span>
                       </td>
+                      <td className="px-4 py-3 hidden md:table-cell">
+                        <span className="font-body text-xs font-medium text-gray-600">
+                          {NEGOCIO[p.contractType ?? "venda"] || "Venda"}
+                        </span>
+                      </td>
                       <td className="px-4 py-3 hidden lg:table-cell">
                         <span className="font-body text-sm text-navy-900 font-medium">
                           {formatPrice(p.price)}
@@ -130,15 +174,29 @@ export default async function AdminImoveisPage() {
                           </span>
                         </div>
                       </td>
+
+                      {/* COLUNA DE STATUS ALTERADA AQUI */}
                       <td className="px-4 py-3 hidden md:table-cell">
-                        <span className={`text-[10px] font-body font-medium px-2 py-1 ${st.cls}`}>
+                        <span
+                          className={`text-[10px] font-body font-medium px-2 py-1 w-max ${st.cls}`}
+                        >
                           {st.label}
                         </span>
                       </td>
+
+                      <td className="px-4 py-3 hidden md:table-cell">
+                        {String(p.featured) === "true" && (
+                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 border border-amber-300 text-amber-700 bg-amber-50 w-max">
+                            ⭐ DESTAQUE
+                          </span>
+                        )}
+                      </td>
+
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2 justify-end">
                           <Link
                             href={`/admin/imoveis/${p.id}/editar`}
+                            prefetch={false}
                             className="flex items-center gap-1 text-xs font-body text-navy-600 hover:text-gold-500 transition-colors px-2 py-1 border border-gray-200 hover:border-gold-300"
                           >
                             <Pencil size={12} />

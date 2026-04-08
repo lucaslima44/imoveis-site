@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { BedDouble, Bath, Car, Maximize2, MapPin } from "lucide-react";
 import { Property } from "@/types";
+import { generateSlug } from "@/lib/slug";
 
 interface PropertyCardProps {
   property: Property;
@@ -19,9 +20,7 @@ export function formatPrice(price: number): string {
 export default function PropertyCard({ property }: PropertyCardProps) {
   return (
     <Link
-      href={`/imoveis/${property.id}`}
-      target="_blank"
-      rel="noopener noreferrer"
+      href={`/imoveis/${generateSlug(property.title, property.id)}`}
       className="group block bg-cream-50 card-shadow overflow-hidden hover:-translate-y-1 transition-all duration-300"
     >
       {/* Image */}

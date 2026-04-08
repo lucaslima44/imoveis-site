@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "hash-password": "node -e \"const b=require('bcryptjs');const p=process.argv[1];if(!p){console.error('Uso: npm run hash-password -- SUA_SENHA');process.exit(1);}b.hash(p,12).then(h=>{console.log('Hash:',h);})\""
+    "lint": "next lint"
   },
   "dependencies": {
     "next": "14.2.5",

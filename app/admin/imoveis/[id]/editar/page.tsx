@@ -3,6 +3,9 @@ import { findByIdAdmin } from "@/lib/properties-store";
 import PropertyForm from "../../PropertyForm";
 import type { Metadata } from "next";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface Props {
   params: { id: string };
 }
