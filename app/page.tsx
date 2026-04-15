@@ -45,7 +45,7 @@ export default async function Home() {
       {/* Hero */}
       <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <Image src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1920&q=85" alt="Imóvel de luxo" fill className="object-cover" priority />
+          <Image src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1920&q=85" alt="Imóvel de luxo" fill className="object-cover" priority={true}  />
           <div className="absolute inset-0 bg-gradient-to-r from-navy-900/80 via-navy-900/50 to-transparent" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full">
