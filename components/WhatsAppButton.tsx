@@ -1,6 +1,6 @@
 "use client";
 
-const WHATSAPP_NUMBER = "5511999999999";
+const WHATSAPP_NUMBER = "5511997111030";
 const WHATSAPP_MESSAGE =
   "Olá! Tenho interesse em conhecer os imóveis disponíveis. Pode me ajudar?";
 

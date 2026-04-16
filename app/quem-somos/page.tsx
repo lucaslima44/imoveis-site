@@ -33,37 +33,52 @@ const values = [
 
 const team = [
   {
-    name: "Ricardo Nobre",
+    name: "Vandir Lima",
     role: "Fundador & Diretor",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
-    bio: "15 anos de mercado imobiliário. Especialista em imóveis de alto padrão e investimentos.",
+    image: "/",
+    bio: "5 anos de mercado imobiliário. Especialista em imóveis residenciais.",
   },
-  {
-    name: "Ana Carvalho",
-    role: "Gerente Comercial",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
-    bio: "Especialista em negociação e atendimento consultivo. Mais de 300 imóveis intermediados.",
-  },
-  {
-    name: "Bruno Lima",
-    role: "Corretor Sênior",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80",
-    bio: "CRECI ativo, especializado em condomínios de alto padrão e imóveis residenciais.",
-  },
-  {
-    name: "Fernanda Costa",
-    role: "Corretora & Avaliadora",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80",
-    bio: "Avaliadora certificada com foco em imóveis residenciais e consultoria para compradores.",
-  },
+  // {
+  //   name: "Ana Carvalho",
+  //   role: "Gerente Comercial",
+  //   image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
+  //   bio: "Especialista em negociação e atendimento consultivo. Mais de 300 imóveis intermediados.",
+  // },
+  // {
+  //   name: "Bruno Lima",
+  //   role: "Corretor Sênior",
+  //   image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80",
+  //   bio: "CRECI ativo, especializado em condomínios de alto padrão e imóveis residenciais.",
+  // },
+  // {
+  //   name: "Fernanda Costa",
+  //   role: "Corretora & Avaliadora",
+  //   image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80",
+  //   bio: "Avaliadora certificada com foco em imóveis residenciais e consultoria para compradores.",
+  // },
 ];
 
 const timeline = [
-  { year: "2009", event: "Fundação da VA. Lima Imóveis no Capão Redondo" },
-  { year: "2012", event: "Abertura da segunda unidade e expansão para o interior" },
-  { year: "2016", event: "Prêmio de melhor imobiliária regional pelo CRECI-SP" },
-  { year: "2020", event: "Digitalização completa e lançamento do portal online" },
-  { year: "2024", event: "Mais de 1.200 imóveis negociados e 500 famílias atendidas" },
+  { 
+    year: "2021", 
+    event: "Formalização e Sede Própria", 
+    description: "Obtenção do CRECI e abertura da sede estratégica no Capão Redondo para atendimento presencial." 
+  },
+  { 
+    year: "2023", 
+    event: "Consolidação no Mercado Local", 
+    description: "Expansão da carteira de imóveis e fortalecimento da marca na região sul de São Paulo." 
+  },
+  { 
+    year: "2025", 
+    event: "Modernização de Processos", 
+    description: "Implementação de novas tecnologias de gestão para agilizar contratos e vistorias." 
+  },
+  { 
+    year: "2026", 
+    event: "Presença Digital Global", 
+    description: "Lançamento do novo portal imobiliário, conectando clientes a oportunidades com apenas um clique." 
+  },
 ];
 
 export default function QuemSomos() {
@@ -86,7 +101,7 @@ export default function QuemSomos() {
           <h1 className="font-display text-5xl md:text-6xl font-semibold text-cream-50 leading-tight max-w-2xl">
             Realizando Sonhos
             <br />
-            <span className="text-gold-400 italic">Há 15 Anos</span>
+            <span className="text-gold-400 italic">Há +5 Anos</span>
           </h1>
         </div>
       </div>
@@ -102,21 +117,13 @@ export default function QuemSomos() {
             <div className="w-12 h-0.5 bg-gold-500 mb-8" />
             <div className="space-y-4 font-body text-navy-600 text-[15px] leading-relaxed">
               <p>
-                A VA. Lima Imóveis nasceu com uma missão clara com uma missão clara: oferecer um
-                atendimento imobiliário diferenciado, baseado em transparência,
-                confiança e resultado. Fundada com foco no atendimento ao bairro,
-                começou com dois corretores e um sonho grande.
+                Fundada em 2021 no Capão Redondo, a V.A. Lima Imóveis surgiu para simplificar o mercado imobiliário com ética e resultados reais. Somos especialistas no que fazemos e apaixonados pela nossa região.
               </p>
               <p>
-                Ao longo de 15 anos, construímos uma reputação sólida no mercado
-                paulistano, intermediando mais de 1.200 negociações e ajudando
-                centenas de famílias a encontrarem o lar ideal. Cada imóvel
-                negociado carrega uma história, e é isso que nos motiva.
+               Com 5 anos de atuação e mais de 50 imóveis negociados, construímos uma base sólida de confiança com nossos clientes. Acreditamos que a transparência é o único caminho para negociações seguras e duradouras.
               </p>
               <p>
-                Hoje, somos uma equipe de profissionais apaixonados, com profundo
-                conhecimento do mercado e um compromisso inabalável com a
-                satisfação de cada cliente.
+               Nosso foco é o bairro, nossa força é a transparência e nosso objetivo é a sua satisfação. Estamos prontos para continuar crescendo junto com a nossa comunidade.
               </p>
             </div>
           </div>
@@ -132,7 +139,7 @@ export default function QuemSomos() {
             {/* Floating stat card */}
             <div className="absolute -bottom-6 -left-6 bg-navy-900 text-cream-50 p-6 shadow-xl">
               <p className="font-display text-4xl font-semibold text-gold-400">
-                1.200+
+                50+
               </p>
               <p className="font-body text-sm text-cream-300 mt-1">
                 Imóveis Negociados
@@ -193,7 +200,7 @@ export default function QuemSomos() {
                     {item.year}
                   </span>
                   <p className="font-body text-navy-600 text-sm leading-relaxed mt-1">
-                    {item.event}
+                    {item.event} <br /> {item.description}
                   </p>
                 </div>
                 {/* Dot */}

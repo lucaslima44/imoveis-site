@@ -97,7 +97,7 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin size={15} className="text-gold-400 mt-0.5 shrink-0" />
                 <span className="text-cream-300 text-sm leading-relaxed">
-                  Estrada de Itapecerica — Parque Fernanda
+                  R. Sílvia de Faria Marcondes, 400, Sala 01 — Parque Fernanda - CEP 05889-410
                   <br />
                   Capão Redondo — São Paulo, SP
                 </span>
@@ -105,19 +105,19 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <Phone size={15} className="text-gold-400 shrink-0" />
                 <a
-                  href="tel:+5511999999999"
+                  href="tel:+5511997111030"
                   className="text-cream-300 text-sm hover:text-gold-400 transition-colors"
                 >
-                  (11) 99999-9999
+                  (11) 99711-1030
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={15} className="text-gold-400 shrink-0" />
                 <a
-                  href="mailto:contato@valimaimoveis.com.br"
+                  href="mailto:valima.imoveis@gmail.com"
                   className="text-cream-300 text-sm hover:text-gold-400 transition-colors"
                 >
-                  contato@valimaimoveis.com.br
+                  valima.imoveis@gmail.com
                 </a>
               </li>
             </ul>

@@ -1,6 +1,28 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next'
+import { Montserrat, Poppins, Inter } from 'next/font/google'
+import './globals.css'
 import SiteShell from "@/components/SiteShell";
+
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+})
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  variable: '--font-poppins',
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
 
 const SITE_NAME = "VA. Lima Imóveis";
 const SITE_URL = "https://www.valimaimoveis.com.br";
@@ -125,7 +147,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={`${montserrat.variable} ${poppins.variable} ${inter.variable}`}>
       <head>
         <script
           type="application/ld+json"

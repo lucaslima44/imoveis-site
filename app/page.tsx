@@ -22,16 +22,16 @@ export const metadata: Metadata = {
 };
 
 const stats = [
-  { end: 1200, prefix: "", suffix: "+", label: "Imóveis Vendidos",     duration: 2000 },
-  { end: 15,   prefix: "", suffix: "",  label: "Anos de Experiência",  duration: 1400 },
+  { end: 50, prefix: "", suffix: "+", label: "Imóveis Negociados",     duration: 2000 },
+  { end: 5,   prefix: "", suffix: "+",  label: "Anos de Experiência",  duration: 1400 },
   { end: 98,   prefix: "", suffix: "%", label: "Clientes Satisfeitos", duration: 1600 },
-  { end: 500,  prefix: "", suffix: "+", label: "Famílias Atendidas",   duration: 1800 },
+  { end: 50,  prefix: "", suffix: "+", label: "Famílias Atendidas",   duration: 1800 },
 ];
 
 const differentials = [
   { icon: Shield,    title: "Segurança Jurídica", desc: "Toda documentação verificada e processo 100% seguro para sua tranquilidade." },
-  { icon: Clock,     title: "Atendimento Ágil",   desc: "Respondemos em até 2 horas e acompanhamos você do início ao fim." },
-  { icon: Award,     title: "Alto Padrão",         desc: "Curadoria rigorosa dos melhores imóveis em localizações privilegiadas." },
+  { icon: Clock,     title: "Atendimento Ágil",   desc: "Respondemos em até 3 horas e acompanhamos você do início ao fim." },
+  { icon: Award,     title: "Alto Padrão",         desc: "Curadoria rigorosa dos melhores imóveis nas localizações." },
   { icon: TrendingUp,title: "Melhor Negócio",     desc: "Avaliações precisas para garantir o melhor valor pelo seu investimento." },
 ];
 
@@ -57,9 +57,9 @@ export default async function Home() {
               Encontre o Lugar<br />
               <span className="text-gold-400 italic">Perfeito</span> para Viver
             </h1>
-            <p className="font-body text-cream-200 text-lg leading-relaxed mb-10 max-w-lg opacity-0 animate-fade-up delay-200">
+            <p className="font-poppins text-cream-200 text-lg leading-relaxed mb-10 max-w-lg opacity-0 animate-fade-up delay-200">
               Capão Redondo, Parque Fernanda e Zona Sul de SP.
-              Apartamentos COHAB, casas e muito mais — atendimento pelo WhatsApp!
+              Apartamentos COHAB, casas e muito mais — atendimento pelo WhatsApp ou marque um horário!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-up delay-300">
               <Link href="/imoveis" className="bg-gold-500 text-cream-50 px-8 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm hover:bg-gold-400 transition-colors duration-300 flex items-center justify-center gap-2 group">
@@ -148,13 +148,13 @@ export default async function Home() {
           <div className="absolute inset-0 bg-navy-900/85" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 py-24 text-center">
-          <p className="section-label mb-4">Vamos conversar?</p>
+          <p className="section-label mb-4">Atendimento Personalizado</p>
           <h2 className="font-display text-4xl md:text-5xl font-semibold text-cream-50 mb-6 leading-tight">
-            Seu sonho começa com<br />
-            <span className="text-gold-400 italic">uma conversa</span>
+            Vanos encontrar seu imóvel juntos?<br />
+            {/* <span className="text-gold-400 italic">uma conversa</span> */}
           </h2>
           <p className="font-body text-cream-200 text-base leading-relaxed mb-10 max-w-lg mx-auto">
-            Entre em contato e descubra as melhores oportunidades do mercado imobiliário no Capão Redondo.
+            Agende uma visita ao imóvel, marque uma conversa presencial ou tire suas dúvidas agora mesmo pelo WhatsApp. Estamos prontos para te mostrar o melhor do Capão Redondo.
           </p>
           <a
             href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Gostaria de saber mais sobre os imóveis disponíveis no Capão Redondo e Parque Fernanda.")}`}

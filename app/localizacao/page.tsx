@@ -11,29 +11,29 @@ const contactInfo = [
   {
     icon: MapPin,
     label: "Endereço",
-    value: "Estrada de Itapecerica",
+    value: "R. Sílvia de Faria Marcondes, 400, Sala 01, CEP 05889-410",
     sub: "Parque Fernanda — Capão Redondo, SP",
-    href: "https://maps.google.com/?q=Estrada+de+Itapecerica+Capão+Redondo+São+Paulo",
+    href: "https://maps.app.goo.gl/opf7mya4u769WyRy6",
   },
   {
     icon: Phone,
     label: "Telefone",
-    value: "(11) 99999-9999",
-    sub: "Seg a Sex, das 9h às 18h",
-    href: "tel:+5511999999999",
+    value: "(11) 99711-1030 (WhatsApp) | 11 5824-8807 (Fixo)",
+    sub: "Seg a Sex, das 9h às 17h",
+    href: "tel:+5511997111030",
   },
   {
     icon: Mail,
     label: "E-mail",
-    value: "contato@valimaimoveis.com.br",
-    sub: "Respondemos em até 2h",
-    href: "mailto:contato@valimaimoveis.com.br",
+    value: "valima.imoveis@gmail.com",
+    sub: "Respondemos em até 3h",
+    href: "mailto:valima.imoveis@gmail.com",
   },
   {
     icon: Clock,
     label: "Horário",
-    value: "Seg – Sex: 9h às 18h",
-    sub: "Sáb: 9h às 13h | Dom: Fechado",
+    value: "Seg – Sex: 9h às 17h",
+    sub: "Sáb e Dom: Fechado",
     href: null,
   },
 ];
@@ -55,7 +55,7 @@ export default function LocalizacaoPage() {
   // Embed Google Maps — Capão Redondo / Parque Fernanda, Estrada de Itapecerica
   // ← Para usar seu endereço exato: Google Maps → Compartilhar → Incorporar um mapa → copie o src do iframe
   const mapSrc =
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3659.8177!2d-46.7596!3d-23.6794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce4f1c3c1c1c1c%3A0x0!2sEstrada%20de%20Itapecerica%2C%20Cap%C3%A3o%20Redondo%2C%20S%C3%A3o%20Paulo!5e0!3m2!1spt-BR!2sbr!4v1700000000001!5m2!1spt-BR!2sbr";
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3654.1626924095663!2d-46.7885377!3d-23.670139199999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce53e491fd9f57%3A0x57745de00eca9583!2sV.A.%20Lima%20Imobili%C3%A1ria!5e0!3m2!1spt-BR!2sbr!4v1776299746147!5m2!1spt-BR!2sbr";
 
   return (
     <div className="bg-cream-100 min-h-screen">
