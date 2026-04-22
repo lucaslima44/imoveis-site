@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Building2, Home, PlusCircle, Star, ArrowRight } from "lucide-react";
 import { readProperties } from "@/lib/properties-store";
 import type { Metadata } from "next";
+import ActionCard from "@/components/ActionCard";
+import PageHeader from "@/components/PageHeader";
 
 export const metadata: Metadata = { title: "Dashboard" };
 export const dynamic = "force-dynamic";
@@ -65,14 +67,10 @@ export default async function AdminDashboard() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="font-display text-2xl font-semibold text-navy-900">
-          Dashboard
-        </h1>
-        <p className="font-body text-gray-500 text-sm mt-1">
-          Visão geral dos imóveis cadastrados.
-        </p>
-      </div>
+      <PageHeader
+        title="Dashboard"
+        description="Visão geral dos imóveis cadastrados."
+      />
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
@@ -87,47 +85,18 @@ export default async function AdminDashboard() {
 
       {/* Ações rápidas */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
-        <Link
+        <ActionCard
           href="/admin/imoveis/novo"
-          className="flex items-center gap-4 bg-white border border-gray-200 p-5 hover:border-gold-400 hover:shadow-sm transition-all duration-150 group"
-        >
-          <div className="w-10 h-10 bg-navy-900 flex items-center justify-center shrink-0">
-            <PlusCircle size={18} className="text-gold-400" />
-          </div>
-          <div>
-            <p className="font-body text-sm font-semibold text-navy-900">
-              Cadastrar Imóvel
-            </p>
-            <p className="font-body text-xs text-gray-500 mt-0.5">
-              Adicionar novo imóvel ao portfólio
-            </p>
-          </div>
-          <ArrowRight
-            size={16}
-            className="ml-auto text-gray-300 group-hover:text-gold-400 transition-colors"
-          />
-        </Link>
-
-        <Link
+          icon={PlusCircle}
+          title="Cadastrar Imóvel"
+          description="Adicionar novo imóvel ao portfólio"
+        />
+        <ActionCard
           href="/admin/imoveis"
-          className="flex items-center gap-4 bg-white border border-gray-200 p-5 hover:border-gold-400 hover:shadow-sm transition-all duration-150 group"
-        >
-          <div className="w-10 h-10 bg-navy-900 flex items-center justify-center shrink-0">
-            <Building2 size={18} className="text-gold-400" />
-          </div>
-          <div>
-            <p className="font-body text-sm font-semibold text-navy-900">
-              Gerenciar Imóveis
-            </p>
-            <p className="font-body text-xs text-gray-500 mt-0.5">
-              Editar, remover e gerenciar fotos
-            </p>
-          </div>
-          <ArrowRight
-            size={16}
-            className="ml-auto text-gray-300 group-hover:text-gold-400 transition-colors"
-          />
-        </Link>
+          icon={Building2}
+          title="Gerenciar Imóveis"
+          description="Editar, remover e gerenciar fotos"
+        />
       </div>
 
       {/* Recentes */}

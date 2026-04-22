@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { Button } from "@/components/Button";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -62,12 +63,11 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/imoveis"
-              className="ml-2 bg-navy-900 text-cream-50 px-5 py-2.5 text-xs font-medium tracking-[0.15em] uppercase hover:bg-gold-500 transition-colors duration-300"
-            >
-              Ver Imóveis
-            </Link>
+            <Button asChild size="sm" className="ml-2">
+              <Link href="/imoveis">
+                Ver Imóveis
+              </Link>
+            </Button>
           </nav>
 
           {/* Mobile Toggle */}
@@ -101,12 +101,11 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
-          <Link
-            href="/imoveis"
-            className="mt-3 text-center bg-navy-900 text-cream-50 py-3 text-xs font-medium tracking-[0.15em] uppercase hover:bg-gold-500 transition-colors duration-300"
-          >
-            Ver Imóveis
-          </Link>
+          <Button asChild size="sm" className="mt-3 w-full justify-center">
+            <Link href="/imoveis">
+              Ver Imóveis
+            </Link>
+          </Button>
         </nav>
       </div>
     </header>

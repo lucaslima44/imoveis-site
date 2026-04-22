@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Property } from "@/types";
 import { Save, ArrowLeft, Upload, X, Star, Loader2, GripVertical } from "lucide-react";
 import Image from "next/image";
+import { Button } from "@/components/Button";
 
 type FormData = Omit<Property, "id" | "images">;
 
@@ -572,31 +573,26 @@ export default function PropertyForm({
 
       {/* Ações */}
       <div className="flex items-center gap-3 justify-between">
-        <button
+        <Button
           type="button"
           onClick={() => router.back()}
-          className="flex items-center gap-2 text-sm font-body text-gray-500 hover:text-gray-700 transition-colors"
+          variant="ghost"
+          leftIcon={<ArrowLeft size={15} />}
         >
-          <ArrowLeft size={15} />
           Voltar
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="submit"
-          disabled={saving}
-          className="flex items-center gap-2 bg-navy-900 text-cream-50 px-6 py-3 text-sm font-body font-medium tracking-wide hover:bg-gold-500 transition-colors duration-200 disabled:opacity-50"
+          loading={saving}
+          leftIcon={<Save size={15} />}
         >
-          {saving ? (
-            <Loader2 size={15} className="animate-spin" />
-          ) : (
-            <Save size={15} />
-          )}
           {saving
             ? "Salvando..."
             : mode === "create"
             ? "Cadastrar Imóvel"
             : "Salvar Alterações"}
-        </button>
+        </Button>
       </div>
     </form>
   );

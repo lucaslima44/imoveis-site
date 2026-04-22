@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import DeletePropertyButton from "./DeletePropertyButton";
+import { Button } from "@/components/Button";
+import PageHeader from "@/components/PageHeader";
 
 // Garante que a página sempre busque a versão mais recente do banco (sem F5)
 export const dynamic = "force-dynamic";
@@ -44,25 +46,18 @@ export default async function AdminImoveisPage() {
 
   return (
     <div>
-      <div className="flex items-start justify-between mb-8 gap-4">
-        <div>
-          <h1 className="font-display text-2xl font-semibold text-navy-900">
-            Imóveis
-          </h1>
-          <p className="font-body text-gray-500 text-sm mt-1">
-            {properties.length} imóvel
-            {properties.length !== 1 ? "is" : ""} cadastrado
-            {properties.length !== 1 ? "s" : ""}.
-          </p>
-        </div>
-        <Link
-          href="/admin/imoveis/novo"
-          className="shrink-0 flex items-center gap-2 bg-navy-900 text-cream-50 px-4 py-2.5 font-body text-xs font-medium tracking-wide uppercase hover:bg-gold-500 transition-colors duration-200"
-        >
-          <PlusCircle size={14} />
-          Novo Imóvel
-        </Link>
-      </div>
+      <PageHeader
+        title="Imóveis"
+        description={`${properties.length} imóvel${properties.length !== 1 ? "is" : ""} cadastrado${properties.length !== 1 ? "s" : ""}.`}
+        action={
+          <Button asChild>
+            <Link href="/admin/imoveis/novo">
+              <PlusCircle size={14} />
+              Novo Imóvel
+            </Link>
+          </Button>
+        }
+      />
 
       <div className="bg-white border border-gray-200 overflow-hidden">
         {properties.length === 0 ? (
@@ -71,12 +66,12 @@ export default async function AdminImoveisPage() {
             <p className="font-body text-gray-500 text-sm">
               Nenhum imóvel cadastrado.
             </p>
-            <Link
-              href="/admin/imoveis/novo"
-              className="inline-flex items-center gap-2 mt-4 text-gold-500 hover:text-gold-600 text-sm font-body transition-colors"
-            >
-              <PlusCircle size={14} /> Cadastrar primeiro imóvel
-            </Link>
+            <Button asChild variant="ghost" size="sm">
+              <Link href="/admin/imoveis/novo">
+                <PlusCircle size={14} />
+                Cadastrar primeiro imóvel
+              </Link>
+            </Button>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -194,14 +189,12 @@ export default async function AdminImoveisPage() {
 
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2 justify-end">
-                          <Link
-                            href={`/admin/imoveis/${p.id}/editar`}
-                            prefetch={false}
-                            className="flex items-center gap-1 text-xs font-body text-navy-600 hover:text-gold-500 transition-colors px-2 py-1 border border-gray-200 hover:border-gold-300"
-                          >
-                            <Pencil size={12} />
-                            Editar
-                          </Link>
+                          <Button asChild variant="secondary" size="sm">
+                            <Link href={`/admin/imoveis/${p.id}/editar`} prefetch={false}>
+                              <Pencil size={12} />
+                              Editar
+                            </Link>
+                          </Button>
                           <DeletePropertyButton id={p.id} title={p.title} />
                         </div>
                       </td>
