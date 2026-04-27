@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { uploadPhoto, removePhoto } from "@/lib/properties-store";
+import { uploadPhoto, removePhoto, getProperty } from "@/lib/properties-store";
 
 interface Params { params: { id: string } }
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"];
-const MAX_SIZE = 8 * 1024 * 1024;
+const MAX_SIZE = 7 * 1024 * 1024;
 
 export async function POST(req: NextRequest, { params }: Params) {
   let formData: FormData;
@@ -15,16 +15,49 @@ export async function POST(req: NextRequest, { params }: Params) {
     return NextResponse.json({ error: "FormData inválido." }, { status: 400 });
   }
 
-  const file = formData.get("foto") as File | null;
-  if (!file) return NextResponse.json({ error: "Nenhum arquivo enviado." }, { status: 400 });
-  if (!ALLOWED_TYPES.includes(file.type))
-    return NextResponse.json({ error: "Use JPG, PNG, WEBP ou AVIF." }, { status: 422 });
-  if (file.size > MAX_SIZE)
-    return NextResponse.json({ error: "Máximo 8 MB." }, { status: 422 });
+  const files = formData.getAll("fotos") as File[];
+  if (files.length === 0) {
+    // Compatibilidade com upload único (campo "foto")
+    const file = formData.get("foto") as File | null;
+    if (!file) return NextResponse.json({ error: "Nenhum arquivo enviado." }, { status: 400 });
+    if (!ALLOWED_TYPES.includes(file.type))
+      return NextResponse.json({ error: "Use JPG, PNG, WEBP ou AVIF." }, { status: 422 });
+    if (file.size > MAX_SIZE)
+      return NextResponse.json({ error: "Máximo 8 MB." }, { status: 422 });
+
+    try {
+      const result = await uploadPhoto(params.id, file);
+      revalidatePath(`/imoveis/${params.id}`);
+      return NextResponse.json(result, { status: 201 });
+    } catch (e: unknown) {
+      return NextResponse.json({ error: (e as Error).message }, { status: 500 });
+    }
+  }
+
+  // Upload múltiplo
+  const errors: string[] = [];
+  for (const file of files) {
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      errors.push(`${file.name}: formato não permitido`);
+      continue;
+    }
+    if (file.size > MAX_SIZE) {
+      errors.push(`${file.name}: excede 8 MB`);
+      continue;
+    }
+    try {
+      await uploadPhoto(params.id, file);
+    } catch (e: unknown) {
+      errors.push(`${file.name}: ${(e as Error).message}`);
+    }
+  }
 
   try {
-    const result = await uploadPhoto(params.id, file);
+    const result = await getProperty(params.id);
     revalidatePath(`/imoveis/${params.id}`);
+    if (errors.length > 0) {
+      return NextResponse.json({ ...result, warnings: errors });
+    }
     return NextResponse.json(result, { status: 201 });
   } catch (e: unknown) {
     return NextResponse.json({ error: (e as Error).message }, { status: 500 });

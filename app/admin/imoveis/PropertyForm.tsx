@@ -3,9 +3,34 @@
 import { useState, ChangeEvent, FormEvent, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Property } from "@/types";
-import { Save, ArrowLeft, Upload, X, Star, Loader2, GripVertical } from "lucide-react";
+import { Save, ArrowLeft, Upload, X, Star, Loader2, GripVertical, MapPin } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/Button";
+
+// Função para formatar valor em reais (BRL)
+function formatCurrency(value: number): string {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+}
+
+// Função para converter valor formatado para número
+function parseCurrency(value: string): number {
+  const cleaned = value.replace(/[R$\s.]/g, "").replace(",", ".");
+  return parseFloat(cleaned) || 0;
+}
+
+// Função para formatar CEP
+function formatCEP(value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0, 8);
+  if (digits.length > 5) {
+    return `${digits.slice(0, 5)}-${digits.slice(5)}`;
+  }
+  return digits;
+}
 
 type FormData = Omit<Property, "id" | "images">;
 
@@ -95,6 +120,65 @@ export default function PropertyForm({
   const [uploading, setUploading]     = useState(false);
   const [removing, setRemoving]       = useState<string | null>(null);
   const [globalError, setGlobalError] = useState("");
+  const [cepLoading, setCepLoading] = useState(false);
+  const [cepError, setCepError] = useState("");
+
+  // Estado para o campo de valor formatado (inicializa com dados existentes)
+  const [priceDisplay, setPriceDisplay] = useState(
+    initialData?.price ? formatCurrency(initialData.price) : ""
+  );
+
+  // Estado para o campo de CEP
+  const [cepDisplay, setCepDisplay] = useState("");
+
+  // Função para buscar endereço via CEP (API dos Correios)
+  async function fetchAddressByCEP(cep: string) {
+    const cleanCEP = cep.replace(/\D/g, "");
+    if (cleanCEP.length !== 8) return;
+
+    setCepLoading(true);
+    setCepError("");
+
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${cleanCEP}/json/`);
+      const data = await res.json();
+
+      if (data.erro) {
+        setCepError("CEP não encontrado.");
+        return;
+      }
+
+      // Preenche automaticamente os campos
+      if (data.logradouro) update("address", data.logradouro);
+      if (data.bairro) update("neighborhood", data.bairro);
+      if (data.localidade) update("city", data.localidade);
+      if (data.uf) update("state", data.uf);
+    } catch {
+      setCepError("Erro ao buscar CEP. Preencha manualmente.");
+    } finally {
+      setCepLoading(false);
+    }
+  }
+
+  function handlePriceChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    // Permite apenas dígitos
+    const digits = value.replace(/\D/g, "");
+    const numberValue = parseFloat(digits) || 0;
+    
+    setPriceDisplay(formatCurrency(numberValue));
+    update("price", numberValue);
+  }
+
+  function handleCEPChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = formatCEP(e.target.value);
+    setCepDisplay(value);
+    
+    // Busca automática quando completar 8 dígitos
+    if (value.replace(/\D/g, "").length === 8) {
+      fetchAddressByCEP(value);
+    }
+  }
 
   // Drag-to-reorder state
   const dragIndexRef  = useRef<number | null>(null);
@@ -158,40 +242,66 @@ export default function PropertyForm({
   }
 
   async function handlePhotoUpload(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file || !initialData?.id) return;
+    const files = e.target.files;
+    if (!files || files.length === 0 || !initialData?.id) return;
 
     const allowed = ["image/jpeg", "image/png", "image/webp", "image/avif"];
-    if (!allowed.includes(file.type)) {
-      alert("Use JPG, PNG, WEBP ou AVIF.");
+    const validFiles: File[] = [];
+    const errors: string[] = [];
+
+    if (files.length > 12) {
+      alert("Máximo de 12 fotos por vez.");
+      e.target.value = "";
       return;
     }
-    if (file.size > 8 * 1024 * 1024) {
-      alert("Máximo 8 MB por foto.");
+
+    for (const file of Array.from(files)) {
+      if (!allowed.includes(file.type)) {
+        errors.push(`${file.name}: formato não permitido`);
+        continue;
+      }
+      if (file.size > 7 * 1024 * 1024) {
+        errors.push(`${file.name}: excede 7 MB`);
+        continue;
+      }
+      validFiles.push(file);
+    }
+
+    if (errors.length > 0) {
+      alert(`Alguns arquivos foram ignorados:\n${errors.join("\n")}`);
+    }
+
+    if (validFiles.length === 0) {
+      e.target.value = "";
       return;
     }
 
     setUploading(true);
-    const fd = new FormData();
-    fd.append("foto", file);
 
-    try {
-      const res = await fetch(
-        `/api/admin/imoveis/${initialData.id}/fotos`,
-        { method: "POST", body: fd }
-      );
-      if (res.ok) {
-        const d = await res.json();
-        setImages(d.property.images);
-      } else {
-        alert("Erro no upload da foto.");
+    // Envia cada foto individualmente
+    for (const file of validFiles) {
+      const fd = new FormData();
+      fd.append("foto", file);
+
+      try {
+        const res = await fetch(
+          `/api/admin/imoveis/${initialData.id}/fotos`,
+          { method: "POST", body: fd }
+        );
+        if (res.ok) {
+          const d = await res.json();
+          setImages(d.property.images);
+        } else {
+          const d = await res.json();
+          alert(`Erro ao enviar ${file.name}: ${d.error}`);
+        }
+      } catch {
+        alert(`Erro de conexão ao enviar ${file.name}.`);
       }
-    } catch {
-      alert("Erro de conexão.");
-    } finally {
-      setUploading(false);
-      e.target.value = "";
     }
+
+    setUploading(false);
+    e.target.value = "";
   }
 
   async function handlePhotoRemove(url: string) {
@@ -298,11 +408,10 @@ export default function PropertyForm({
 
           <Field label="Valor (R$) *" error={errors.price}>
             <Input
-              type="number"
-              value={form.price || ""}
-              onChange={(e) => update("price", Number(e.target.value))}
-              placeholder="Ex: 280000"
-              min={0}
+              type="text"
+              value={priceDisplay}
+              onChange={handlePriceChange}
+              placeholder="Ex: 180.000,00"
             />
           </Field>
 
@@ -395,6 +504,33 @@ export default function PropertyForm({
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
+            <Field label="CEP" error={cepError}>
+              <div className="relative">
+                <Input
+                  type="text"
+                  value={cepDisplay}
+                  onChange={handleCEPChange}
+                  placeholder="Ex: 01234-567"
+                  maxLength={9}
+                />
+                {cepLoading && (
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                    <Loader2 size={16} className="animate-spin text-gray-400" />
+                  </div>
+                )}
+                {!cepLoading && cepDisplay.replace(/\D/g, "").length === 8 && !cepError && (
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                    <MapPin size={16} className="text-green-500" />
+                  </div>
+                )}
+              </div>
+              <p className="text-gray-400 text-xs font-body mt-1">
+                Digite o CEP para buscar automaticamente o endereço
+              </p>
+            </Field>
+          </div>
+
+          <div className="md:col-span-2">
             <Field label="Endereço completo *" error={errors.address}>
               <Input
                 value={form.address}
@@ -459,7 +595,7 @@ export default function PropertyForm({
             Arraste as fotos para reordenar · A 1ª imagem é a capa do card.
           </p>
 
-          {/* Botão de upload */}
+          {/* Botão de upload múltiplo */}
           <label
             className={`flex items-center gap-2 w-fit px-4 py-2.5 border-2 border-dashed cursor-pointer transition-colors text-sm font-body font-medium mb-5 ${
               uploading
@@ -472,10 +608,11 @@ export default function PropertyForm({
             ) : (
               <Upload size={15} />
             )}
-            {uploading ? "Enviando..." : "Adicionar Foto"}
+            {uploading ? "Enviando..." : "Adicionar Fotos"}
             <input
               type="file"
               accept="image/jpeg,image/png,image/webp,image/avif"
+              multiple
               className="sr-only"
               disabled={uploading}
               onChange={handlePhotoUpload}
@@ -552,7 +689,7 @@ export default function PropertyForm({
           )}
 
           <p className="font-body text-xs text-gray-400 mt-3">
-            JPG, PNG, WEBP ou AVIF · Máx 8 MB · Salve após reordenar para confirmar.
+            JPG, PNG, WEBP ou AVIF · Máx 7 MB por foto · Máx 12 fotos por vez · Salve após reordenar para confirmar.
           </p>
         </div>
       )}
