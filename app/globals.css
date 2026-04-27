@@ -84,6 +84,8 @@ body {
 .lightbox-img {
   max-height: 90vh;
   max-width: 90vw;
+  width: auto;
+  height: auto;
   object-fit: contain;
   cursor: zoom-in;
   transition: transform 0.3s ease;
@@ -92,6 +94,15 @@ body {
 .lightbox-img.zoomed {
   cursor: zoom-out;
   transform: scale(2);
+}
+
+/* Touch swipe area indicator */
+.touch-swipe-area {
+  cursor: grab;
+}
+
+.touch-swipe-area:active {
+  cursor: grabbing;
 }
 
 /* Animated underline */

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import {
   X,
@@ -20,6 +20,11 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [zoomed, setZoomed] = useState(false);
+  
+  // Touch/swipe state
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const minSwipeDistance = 50;
 
   const openLightbox = (index: number) => {
     setCurrentIndex(index);
@@ -41,6 +46,29 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
     setZoomed(false);
     setCurrentIndex((i) => (i + 1) % images.length);
   }, [images.length]);
+
+  // Touch handlers for swipe navigation
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe) {
+      next();
+    } else if (isRightSwipe) {
+      prev();
+    }
+  };
 
   useEffect(() => {
     if (!lightboxOpen) return;
@@ -150,7 +178,12 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
             </div>
 
             {/* Image */}
-            <div className="relative overflow-auto max-w-[90vw] max-h-[85vh] flex items-center justify-center">
+            <div 
+              className="relative overflow-hidden max-w-[90vw] max-h-[85vh] flex items-center justify-center touch-swipe-area"
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={images[currentIndex]}
