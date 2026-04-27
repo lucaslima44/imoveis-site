@@ -102,9 +102,13 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-cream-300 text-sm hover:text-gold-400 transition-colors"
                 >
-                  R. Sílvia de Faria Marcondes, 400, Sala 01 — Parque Fernanda - CEP 05889-410
-                  <br />
-                  Capão Redondo — São Paulo, SP
+                 Rua Sílvia de Faria Marcondes, 400 — Sala 01
+                 <br />
+                 Parque Fernanda, São Paulo - SP
+                 <br />
+                 (Próximo à região do Capão Redondo / Valo Velho)
+                 <br />
+                 CEP 05889-410
                 </a>
               </li>
               <li className="flex items-center gap-3">

@@ -53,9 +53,9 @@ export default async function Home() {
             <p className="section-label mb-4 opacity-0 animate-fade-up">
               Sua imobiliária de confiança no Capão Redondo
             </p>
-            <h1 className="heading-display text-cream-50 text-5xl md:text-6xl lg:text-7xl mb-6 opacity-0 animate-fade-up delay-100">
+            <h1 className="font-body heading-display text-cream-50 text-5xl md:text-6xl lg:text-7xl mb-6 opacity-0 animate-fade-up delay-100">
               Encontre o Lugar<br />
-              <span className="text-gold-400 italic">Perfeito</span> para Viver
+              <span className="font-inter text-gold-400 ">Perfeito</span> para Viver
             </h1>
             <p className="font-poppins text-cream-200 text-lg leading-relaxed mb-10 max-w-lg opacity-0 animate-fade-up delay-200">
               Capão Redondo, Parque Fernanda e Zona Sul de SP.

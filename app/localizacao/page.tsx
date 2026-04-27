@@ -11,16 +11,23 @@ const contactInfo = [
   {
     icon: MapPin,
     label: "Endereço",
-    value: "R. Sílvia de Faria Marcondes, 400, Sala 01, CEP 05889-410",
-    sub: "Parque Fernanda — Capão Redondo, SP",
+    value: "Rua Sílvia de Faria Marcondes, 400 (Sala 01)",
+    sub: " Parque Fernanda — São Paulo/SP",
     href: "https://maps.app.goo.gl/opf7mya4u769WyRy6",
   },
   {
     icon: Phone,
-    label: "Telefone",
-    value: "(11) 99711-1030 (WhatsApp) | 11 5824-8807 (Fixo)",
+    label: "Celular / WhatsApp",
+    value: "(11) 99711-1030",
     sub: "Seg a Sex, das 9h às 17h",
-    href: "tel:+5511997111030",
+    href: "https://wa.me/5511997111030",
+  },
+  {
+    icon: Phone,
+    label: "Telefone Fixo",
+    value: "(11) 5824-8807",
+    sub: "Seg a Sex, das 9h às 17h",
+    href: "tel:+551158248807",
   },
   {
     icon: Mail,
@@ -42,7 +49,7 @@ const howToArrive = [
   {
     icon: Train,
     mode: "Metrô",
-    desc: 'Linha 5-Lilás (Capão Redondo). Desça na estação Capão Redondo e pegue um ônibus até a Estrada de Itapecerica.',
+    desc: 'Linha 5-Lilás (Capão Redondo). Desça na estação Capão Redondo e pegue um ônibus até a Estrada de Itapecerica 6740.',
   },
   {
     icon: Car,
@@ -67,7 +74,7 @@ export default function LocalizacaoPage() {
           </p>
           <h1 className="font-display text-5xl md:text-6xl font-semibold text-cream-50 leading-tight">
             Nossa
-            <span className="text-gold-400 italic"> Localização</span>
+            <span className="text-gold-400"> Localização</span>
           </h1>
         </div>
       </div>
@@ -184,7 +191,7 @@ export default function LocalizacaoPage() {
             </p>
           </div>
           <a
-            href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Gostaria de agendar uma visita a um imóvel no Capão Redondo.")}`}
+            href={`https://wa.me/5511997111030?text=${encodeURIComponent("Olá! Gostaria de agendar uma visita a um imóvel no Capão Redondo.")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="shrink-0 inline-flex items-center gap-2 px-8 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm text-cream-50 hover:opacity-90 transition-opacity"
