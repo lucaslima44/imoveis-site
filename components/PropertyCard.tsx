@@ -17,6 +17,12 @@ export function formatPrice(price: number): string {
   }).format(price);
 }
 
+const CONTRACT_LABEL: Record<string, string> = {
+  venda: "Venda",
+  locacao: "Locação",
+  venda_locacao: "Venda e Locação",
+};
+
 export default function PropertyCard({ property }: PropertyCardProps) {
   return (
     <Link
@@ -36,11 +42,30 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         <span className="absolute top-4 left-4 bg-navy-900/90 backdrop-blur-sm text-cream-50 text-[10px] font-medium tracking-[0.15em] uppercase px-3 py-1.5">
           {property.type === "apartamento" ? "Apartamento" : "Casa"}
         </span>
+        {/* Contract Type Badge */}
+        {property.contractType && (
+          <span className="absolute top-4 right-4 bg-gold-500/90 backdrop-blur-sm text-navy-900 text-[10px] font-medium tracking-[0.15em] uppercase px-3 py-1.5">
+            {CONTRACT_LABEL[property.contractType] ?? property.contractType}
+          </span>
+        )}
         {/* Price */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-navy-900/80 to-transparent p-4">
-          <p className="text-cream-50 font-display text-xl font-semibold">
-            {formatPrice(property.price)}
-          </p>
+          {property.contractType === "venda_locacao" ? (
+            <div className="flex flex-col gap-0.5">
+              <p className="text-cream-50 font-display text-lg font-semibold">
+                Venda: {formatPrice(property.price)}
+              </p>
+              {property.rentalPrice && (
+                <p className="text-cream-50 font-display text-lg font-semibold">
+                  Locação: {formatPrice(property.rentalPrice)}
+                </p>
+              )}
+            </div>
+          ) : (
+            <p className="text-cream-50 font-display text-xl font-semibold">
+              {formatPrice(property.price)}
+            </p>
+          )}
         </div>
       </div>
 

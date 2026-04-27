@@ -102,13 +102,8 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-cream-300 text-sm hover:text-gold-400 transition-colors"
                 >
-                 Rua Sílvia de Faria Marcondes, 400 — Sala 01
-                 <br />
-                 Parque Fernanda, São Paulo - SP
-                 <br />
-                 (Próximo à região do Capão Redondo / Valo Velho)
-                 <br />
-                 CEP 05889-410
+                 Rua Sílvia de Faria Marcondes, 400, Sala 01 -
+                 Parque Fernanda, SP
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -149,7 +144,7 @@ export default function Footer() {
           <p className="text-cream-300 text-xs">
             © {year} VA. Lima Imóveis. Todos os direitos reservados.
           </p>
-          <p className="text-navy-500 text-xs">CRECI: SP — Zona Sul (Capão Redondo)</p>
+          <p className="text-cream-300 text-xs">CRECI: SP</p>
         </div>
       </div>
     </footer>

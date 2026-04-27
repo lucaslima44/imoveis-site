@@ -39,6 +39,7 @@ const emptyForm: FormData = {
   type: "apartamento",
   contractType: "venda",
   price: 0,
+  rentalPrice: 0,
   address: "",
   neighborhood: "",
   city: "São Paulo",
@@ -420,6 +421,19 @@ export default function PropertyForm({
               step="0.01"
             />
           </Field>
+
+          {(form.contractType === "locacao" || form.contractType === "venda_locacao") && (
+            <Field label="Valor de Locação (R$)">
+              <Input
+                type="number"
+                value={form.rentalPrice || ""}
+                onChange={(e) => update("rentalPrice", Number(e.target.value) || 0)}
+                placeholder="Ex: 2500"
+                min={0}
+                step="0.01"
+              />
+            </Field>
+          )}
 
           <Field label="Área (m²) *" error={errors.area}>
             <Input

@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 function Detail({ property }: { property: Property }) {
   const wMsg = `Olá! Tenho interesse no imóvel: ${property.title} (${property.address}). Pode me enviar mais informações?`;
-  const wUrl = `https://wa.me/5511999999999?text=${encodeURIComponent(wMsg)}`;
+  const wUrl = `https://wa.me/5511997111030?text=${encodeURIComponent(wMsg)}`;
 
   const specs = [
     { icon: BedDouble, label: "Quartos", value: String(property.bedrooms) },
@@ -88,14 +88,25 @@ function Detail({ property }: { property: Property }) {
             <div>
               <h2 className="font-display text-2xl font-semibold text-navy-900 mb-4">Sobre o Imóvel</h2>
               <div className="w-12 h-0.5 bg-gold-500 mb-6" />
-              <p className="font-body text-navy-600 leading-relaxed text-[15px]">{property.description}</p>
+              <p className="font-body text-navy-600 leading-relaxed text-[15px] whitespace-pre-wrap">{property.description}</p>
             </div>
           </div>
 
           <div className="lg:col-span-1">
             <div className="bg-cream-50 shadow-[0_2px_20px_rgba(15,30,43,0.08)] p-7 sticky top-32">
               <p className="font-body text-navy-500 text-xs tracking-[0.15em] uppercase mb-1">Valor</p>
-              <p className="font-display text-3xl font-semibold text-navy-900 mb-6">{formatPrice(property.price)}</p>
+              {property.contractType === "venda_locacao" ? (
+                <div className="mb-6">
+                  <p className="font-display text-2xl font-semibold text-navy-900">Venda: {formatPrice(property.price)}</p>
+                  {property.rentalPrice && (
+                    <p className="font-display text-lg font-semibold text-yellow-600 font-bold mt-1">Locação: {formatPrice(property.rentalPrice)} /mês</p>
+                  )}
+                </div>
+              ) : property.contractType === "locacao" ? (
+                <p className="font-display text-3xl font-semibold text-navy-900 mb-6">{property.rentalPrice ? formatPrice(property.rentalPrice) : "Sob consulta"}</p>
+              ) : (
+                <p className="font-display text-3xl font-semibold text-navy-900 mb-6">{formatPrice(property.price)}</p>
+              )}
               <div className="h-px bg-cream-200 mb-6" />
               <ul className="space-y-0 mb-8">
                 {[

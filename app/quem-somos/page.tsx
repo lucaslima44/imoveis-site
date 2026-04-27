@@ -35,7 +35,7 @@ const team = [
   {
     name: "Vandir Lima",
     role: "Fundador & Diretor",
-    image: "/",
+    image: "/cartao.png",
     bio: "5 anos de mercado imobiliário. Especialista em imóveis residenciais.",
   },
   // {
@@ -232,7 +232,7 @@ export default function QuemSomos() {
                     src={member.image}
                     alt={member.name}
                     fill
-                    className="object-cover"
+                    className="object-contain"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-900/60 to-transparent" />
                 </div>
@@ -263,7 +263,7 @@ export default function QuemSomos() {
             Nossa equipe está pronta para te ajudar a dar o próximo passo.
           </p>
           <a
-            href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Quero conhecer os imóveis disponíveis.")}`}
+            href={`https://wa.me/5511997111030?text=${encodeURIComponent("Olá! Quero conhecer os imóveis disponíveis.")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-gold-500 text-cream-50 px-8 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm hover:bg-gold-400 transition-colors duration-300"

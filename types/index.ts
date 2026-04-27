@@ -3,6 +3,7 @@ export interface Property {
   title: string;
   type: "apartamento" | "casa";
   price: number;
+  rentalPrice?: number;
   contractType?: "venda" | "locacao" | "venda_locacao";
   address: string;
   neighborhood: string;
@@ -40,6 +41,7 @@ export function dbRowToProperty(row: any): Property {
     title: row.title ?? "",
     type: row.type === "casa" ? "casa" : "apartamento",
     price: Number(row.price ?? 0),
+    rentalPrice: Number(row.rental_price ?? 0) || undefined,
     contractType: row.contract_type ?? undefined,
     address: row.address ?? "",
     neighborhood: row.neighborhood ?? "",
@@ -63,6 +65,7 @@ export function propertyToDbRow(p: Omit<Property, "id">) {
     title: p.title,
     type: p.type,
     price: p.price,
+    rental_price: p.rentalPrice ?? null,
     contract_type: p.contractType ?? null,
     address: p.address,
     neighborhood: p.neighborhood,

@@ -157,7 +157,7 @@ export default async function Home() {
             Agende uma visita ao imóvel, marque uma conversa presencial ou tire suas dúvidas agora mesmo pelo WhatsApp. Estamos prontos para te mostrar o melhor do Capão Redondo.
           </p>
           <a
-            href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Gostaria de saber mais sobre os imóveis disponíveis no Capão Redondo e Parque Fernanda.")}`}
+            href={`https://wa.me/5511997111030?text=${encodeURIComponent("Olá! Gostaria de saber mais sobre os imóveis disponíveis no Capão Redondo e Parque Fernanda.")}`}
             target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-gold-500 text-cream-50 px-10 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm hover:bg-gold-400 transition-colors duration-300"
           >
