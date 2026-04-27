@@ -408,10 +408,16 @@ export default function PropertyForm({
 
           <Field label="Valor (R$) *" error={errors.price}>
             <Input
-              type="text"
-              value={priceDisplay}
-              onChange={handlePriceChange}
-              placeholder="Ex: 180.000,00"
+              type="number"
+              value={form.price || ""}
+              onChange={(e) => {
+                const value = Number(e.target.value) || 0;
+                update("price", value);
+                setPriceDisplay(formatCurrency(value));
+              }}
+              placeholder="Ex: 180000"
+              min={0}
+              step="0.01"
             />
           </Field>
 
