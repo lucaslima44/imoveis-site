@@ -5,6 +5,7 @@ import { readFeaturedProperties } from "@/lib/properties-store";
 import PropertyCard from "@/components/PropertyCard";
 import CountUp from "@/components/CountUp";
 import type { Metadata } from "next";
+import { Property } from "@/types";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -37,8 +38,8 @@ const differentials = [
 
 export default async function Home() {
   // Busca imóveis em destaque diretamente do Supabase (status=disponivel AND featured=true)
-  let featured = [];
-  try { featured = await readFeaturedProperties(); } catch { featured = []; }
+  let featured: Property[] = [];
+  try { featured = await readFeaturedProperties(); } catch { featured = [] as Property[]; }
 
   return (
     <>
