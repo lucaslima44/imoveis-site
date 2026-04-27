@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/Button";
@@ -40,13 +41,16 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex flex-col leading-none group">
-            <span className="font-display text-xl font-semibold text-navy-900 tracking-tight group-hover:text-gold-500 transition-colors duration-300">
-              VA. Lima
-            </span>
-            <span className="font-body text-[10px] font-medium tracking-[0.3em] text-gold-500 uppercase">
-              Imóveis
-            </span>
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative w-40 h-40">
+              <Image
+                src="/logo.png"
+                alt="VA. Lima Imóveis"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
           </Link>
 
           {/* Desktop Nav */}
@@ -64,7 +68,7 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-            <Button asChild size="sm" className="ml-2">
+            <Button asChild size="md" className="ml-2">
               <Link href="/imoveis">
                 Ver Imóveis
               </Link>

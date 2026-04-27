@@ -96,11 +96,16 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin size={15} className="text-gold-400 mt-0.5 shrink-0" />
-                <span className="text-cream-300 text-sm leading-relaxed">
+                <a
+                  href="https://maps.app.goo.gl/aeVxwMsmHMEUcYwU6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cream-300 text-sm hover:text-gold-400 transition-colors"
+                >
                   R. Sílvia de Faria Marcondes, 400, Sala 01 — Parque Fernanda - CEP 05889-410
                   <br />
                   Capão Redondo — São Paulo, SP
-                </span>
+                </a>
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={15} className="text-gold-400 shrink-0" />
@@ -108,7 +113,16 @@ export default function Footer() {
                   href="tel:+5511997111030"
                   className="text-cream-300 text-sm hover:text-gold-400 transition-colors"
                 >
-                  (11) 99711-1030
+                  (11) 99711-1030 (Celular)
+                </a>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone size={15} className="text-gold-400 shrink-0" />
+                <a
+                  href="tel:+551158248807"
+                  className="text-cream-300 text-sm hover:text-gold-400 transition-colors"
+                >
+                  (11) 5824-8807 (Fixo)
                 </a>
               </li>
               <li className="flex items-center gap-3">
