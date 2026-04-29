@@ -1,11 +1,19 @@
 "use client";
 
-const WHATSAPP_NUMBER = "5511997111030";
-const WHATSAPP_MESSAGE =
-  "Olá! Tenho interesse em conhecer os imóveis disponíveis. Pode me ajudar?";
+import { useWhatsAppMessage } from "./WhatsAppContext";
 
-export default function WhatsAppButton() {
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+const WHATSAPP_NUMBER = "5511997111030";
+
+interface WhatsAppButtonProps {
+  customMessage?: string;
+}
+
+export default function WhatsAppButton({ customMessage }: WhatsAppButtonProps) {
+  const { customMessage: contextMessage } = useWhatsAppMessage();
+  
+  const defaultMessage = "Olá! Tenho interesse em conhecer os imóveis disponíveis. Pode me ajudar?";
+  const message = customMessage || contextMessage || defaultMessage;
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
   return (
     <a

@@ -64,7 +64,7 @@ export default async function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-up delay-300">
               <Link href="/imoveis" className="bg-gold-500 text-cream-50 px-8 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm hover:bg-gold-400 transition-colors duration-300 flex items-center justify-center gap-2 group">
-                Ver Imóveis
+                Ver todos Imóveis
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link href="/quem-somos" className="border border-cream-50/60 text-cream-50 px-8 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm hover:bg-cream-50 hover:text-navy-900 transition-all duration-300 flex items-center justify-center">
