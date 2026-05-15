@@ -121,21 +121,27 @@ export default async function Home() {
         )}
       </section>
 
-      {/* Differentials */}
-      <section className="bg-cream-200">
+          {/* ── DIFERENCIAIS ── */}
+      <section className="bg-cream-200 border-y border-cream-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 py-20">
           <div className="text-center mb-14">
-            <p className="section-label mb-3">Por que nos escolher</p>
-            <h2 className="heading-display text-4xl md:text-5xl">Nossa Diferença</h2>
+            <p className="text-terra-500 text-xs font-body font-semibold tracking-[0.2em] uppercase mb-3">
+              Por que nos escolher
+            </p>
+            <h2 className="font-display font-light text-forest-900 text-4xl md:text-5xl leading-tight">
+              Nossa Diferença
+            </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {differentials.map((item, i) => (
-              <div key={i} className="text-center">
-                <div className="w-14 h-14 bg-cream-50 flex items-center justify-center mx-auto mb-5">
-                  <item.icon size={22} className="text-gold-500" />
+              <div key={i} className="bg-cream-50 rounded-card p-7 border border-cream-200 flex flex-col items-start gap-4">
+                <div className="w-11 h-11 rounded-xl bg-terra-100 flex items-center justify-center">
+                  <item.icon size={20} className="text-terra-500" />
                 </div>
-                <h3 className="font-display font-semibold text-navy-900 text-lg mb-3">{item.title}</h3>
-                <p className="font-body text-navy-500 text-sm leading-relaxed">{item.desc}</p>
+                <div>
+                  <h3 className="font-display font-medium text-forest-900 text-lg mb-2">{item.title}</h3>
+                  <p className="font-body text-forest-500 text-sm leading-relaxed">{item.desc}</p>
+                </div>
               </div>
             ))}
           </div>
