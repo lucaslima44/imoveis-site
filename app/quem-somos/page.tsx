@@ -98,10 +98,10 @@ export default function QuemSomos() {
           <p className="text-gold-400 text-xs font-medium tracking-[0.2em] uppercase mb-4">
             Nossa história
           </p>
-          <h1 className="font-display text-5xl md:text-6xl font-semibold text-cream-50 leading-tight max-w-2xl">
-            Realizando Sonhos
+          <h1 className="font-display text-4xl md:text-6xl font-semibold text-cream-50 leading-tight max-w-2xl">
+            Realizando Sonhos desde
             <br />
-            <span className="text-gold-400 italic">Há +5 Anos</span>
+            <span className="text-gold-400">2021</span>
           </h1>
         </div>
       </div>
