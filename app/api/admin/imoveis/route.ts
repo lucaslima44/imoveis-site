@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  if (body.type !== "apartamento" && body.type !== "casa") {
+  if (body.type !== "apartamento" && body.type !== "casa" && body.type !== "comercial") {
     return NextResponse.json({ error: "Tipo inválido." }, { status: 422 });
   }
 

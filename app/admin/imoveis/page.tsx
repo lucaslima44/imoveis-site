@@ -36,6 +36,12 @@ const NEGOCIO: Record<string, string> = {
   venda_locacao: "Venda / Locação",
 };
 
+const TIPOS: Record<string, { label: string; cls: string }> = {
+  apartamento: { label: "Apartamento", cls: "bg-blue-50 text-blue-600" },
+  casa: { label: "Casa", cls: "bg-emerald-50 text-emerald-600" },
+  comercial: { label: "Comercial", cls: "bg-purple-50 text-purple-600" },
+};
+
 export default async function AdminImoveisPage() {
   let properties: Awaited<ReturnType<typeof readProperties>> = [];
   try {
@@ -141,15 +147,14 @@ export default async function AdminImoveisPage() {
                         </div>
                       </td>
                       <td className="px-4 py-3 hidden md:table-cell">
-                        <span
-                          className={`text-[10px] font-body font-medium px-2 py-1 uppercase tracking-wide ${
-                            p.type === "apartamento"
-                              ? "bg-blue-50 text-blue-600"
-                              : "bg-emerald-50 text-emerald-600"
-                          }`}
-                        >
-                          {p.type}
-                        </span>
+                        {(() => {
+                          const t = TIPOS[p.type ?? "apartamento"] ?? TIPOS.apartamento;
+                          return (
+                            <span className={`text-[10px] font-body font-medium px-2 py-1 uppercase tracking-wide ${t.cls}`}>
+                              {t.label}
+                            </span>
+                          );
+                        })()}
                       </td>
                       <td className="px-4 py-3 hidden md:table-cell">
                         <span className="font-body text-xs font-medium text-gray-600">

@@ -23,6 +23,12 @@ const CONTRACT_LABEL: Record<string, string> = {
   venda_locacao: "Venda e Locação",
 };
 
+const TIPO_LABEL: Record<string, string> = {
+  apartamento: "Apartamento",
+  casa: "Casa",
+  comercial: "Comercial",
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const id = extractIdFromSlug(params.slug);
   const p = await findById(id);
@@ -37,12 +43,19 @@ function Detail({ property }: { property: Property }) {
   // Define mensagem personalizada para o botão flutuante do WhatsApp
   const whatsappMessage = `Olá! Tenho interesse no imóvel: ${property.title} (${property.address}). Pode me enviar mais informações?`;
 
-  const specs = [
-    { icon: BedDouble, label: "Quartos", value: String(property.bedrooms) },
-    { icon: Bath, label: "Banheiros", value: String(property.bathrooms) },
-    { icon: Car, label: "Vagas", value: String(property.parkingSpots) },
-    { icon: Maximize2, label: "Área", value: `${property.area} m²` },
-  ];
+  const specs =
+    property.type === "comercial"
+      ? [
+          { icon: Maximize2, label: "Área", value: `${property.area} m²` },
+          { icon: Bath, label: "Banheiros", value: String(property.bathrooms) },
+          { icon: Car, label: "Vagas", value: String(property.parkingSpots) },
+        ]
+      : [
+          { icon: Maximize2, label: "Área", value: `${property.area} m²` },
+          { icon: BedDouble, label: "Quartos", value: String(property.bedrooms) },
+          { icon: Bath, label: "Banheiros", value: String(property.bathrooms) },
+          { icon: Car, label: "Vagas", value: String(property.parkingSpots) },
+        ];
 
   return (
     <div className="bg-cream-100 min-h-screen pt-24">
@@ -59,7 +72,7 @@ function Detail({ property }: { property: Property }) {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4 flex-wrap">
               <span className="inline-block bg-cream-200 text-navy-700 text-[10px] font-medium tracking-[0.2em] uppercase px-3 py-1.5">
-                {property.type === "apartamento" ? "Apartamento" : "Casa"}
+                {TIPO_LABEL[property.type] ?? property.type}
               </span>
               {property.contractType && (
                 <span className="inline-block bg-gold-50 text-gold-600 text-[10px] font-medium tracking-[0.2em] uppercase px-3 py-1.5">
@@ -115,12 +128,19 @@ function Detail({ property }: { property: Property }) {
               <ul className="space-y-0 mb-8">
                 {[
                   ["Ref.", `#${property.id}`],
-                  ["Tipo", property.type === "apartamento" ? "Apartamento" : "Casa"],
+                  ["Tipo", TIPO_LABEL[property.type] ?? property.type],
                   ["Negociação", property.contractType ? (CONTRACT_LABEL[property.contractType] ?? "-") : "Venda"],
                   ["Área", `${property.area} m²`],
-                  ["Quartos", String(property.bedrooms)],
-                  ["Banheiros", String(property.bathrooms)],
-                  ["Vagas", String(property.parkingSpots)],
+                  ...(property.type === "comercial"
+                    ? [
+                        ["Banheiros", String(property.bathrooms)],
+                        ["Vagas", String(property.parkingSpots)],
+                      ]
+                    : [
+                        ["Quartos", String(property.bedrooms)],
+                        ["Banheiros", String(property.bathrooms)],
+                        ["Vagas", String(property.parkingSpots)],
+                      ]),
                 ].map(([label, val]) => (
                   <li key={label} className="flex justify-between items-center text-sm font-body border-b border-cream-200 py-3 last:border-0">
                     <span className="text-navy-500">{label}</span>

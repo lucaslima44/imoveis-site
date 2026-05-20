@@ -389,10 +389,17 @@ export default function PropertyForm({
           <Field label="Tipo *">
             <Select
               value={form.type}
-              onChange={(e) => update("type", e.target.value)}
+              onChange={(e) => {
+                const newType = e.target.value as FormData["type"];
+                update("type", newType);
+                if (newType === "comercial") {
+                  update("bedrooms", 0);
+                }
+              }}
             >
               <option value="apartamento">Apartamento</option>
               <option value="casa">Casa</option>
+              <option value="comercial">Comercial</option>
             </Select>
           </Field>
 
@@ -445,15 +452,17 @@ export default function PropertyForm({
             />
           </Field>
 
-          <Field label="Quartos">
-            <Input
-              type="number"
-              value={form.bedrooms}
-              onChange={(e) => update("bedrooms", Number(e.target.value))}
-              min={0}
-              max={20}
-            />
-          </Field>
+          {form.type !== "comercial" && (
+            <Field label="Quartos">
+              <Input
+                type="number"
+                value={form.bedrooms}
+                onChange={(e) => update("bedrooms", Number(e.target.value))}
+                min={0}
+                max={20}
+              />
+            </Field>
+          )}
 
           <Field label="Banheiros">
             <Input

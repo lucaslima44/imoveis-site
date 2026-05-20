@@ -1,9 +1,9 @@
 "use client";
 
 interface FilterBarProps {
-  activeFilter: "todos" | "apartamento" | "casa";
-  onFilter: (filter: "todos" | "apartamento" | "casa") => void;
-  counts: { todos: number; apartamento: number; casa: number };
+  activeFilter: "todos" | "apartamento" | "casa" | "comercial";
+  onFilter: (filter: "todos" | "apartamento" | "casa" | "comercial") => void;
+  counts: { todos: number; apartamento: number; casa: number; comercial: number };
 }
 
 export default function FilterBar({ activeFilter, onFilter, counts }: FilterBarProps) {
@@ -11,6 +11,7 @@ export default function FilterBar({ activeFilter, onFilter, counts }: FilterBarP
     { key: "todos" as const, label: "Todos", count: counts.todos },
     { key: "apartamento" as const, label: "Apartamentos", count: counts.apartamento },
     { key: "casa" as const, label: "Casas", count: counts.casa },
+    { key: "comercial" as const, label: "Comercial", count: counts.comercial },
   ];
 
   return (

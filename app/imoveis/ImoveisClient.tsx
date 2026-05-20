@@ -6,7 +6,7 @@ import { Property } from "@/types";
 import PropertyCard from "@/components/PropertyCard";
 import FilterBar from "@/components/FilterBar";
 
-type FilterType = "todos" | "apartamento" | "casa";
+type FilterType = "todos" | "apartamento" | "casa" | "comercial";
 
 export default function ImoveisClient({ initialProperties }: { initialProperties: Property[] }) {
   const [activeFilter, setActiveFilter] = useState<FilterType>("todos");
@@ -23,6 +23,7 @@ export default function ImoveisClient({ initialProperties }: { initialProperties
     todos: initialProperties.length,
     apartamento: initialProperties.filter((p) => p.type === "apartamento").length,
     casa: initialProperties.filter((p) => p.type === "casa").length,
+    comercial: initialProperties.filter((p) => p.type === "comercial").length,
   };
 
   return (

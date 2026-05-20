@@ -19,7 +19,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
     return NextResponse.json({ error: "JSON inválido." }, { status: 400 });
   }
 
-  if (body.type && body.type !== "apartamento" && body.type !== "casa") {
+  if (body.type && body.type !== "apartamento" && body.type !== "casa" && body.type !== "comercial") {
     return NextResponse.json({ error: "Tipo inválido." }, { status: 422 });
   }
 

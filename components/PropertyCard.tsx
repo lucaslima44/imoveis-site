@@ -23,6 +23,12 @@ const CONTRACT_LABEL: Record<string, string> = {
   venda_locacao: "Venda e Locação",
 };
 
+const TIPO_LABEL: Record<string, string> = {
+  apartamento: "Apartamento",
+  casa: "Casa",
+  comercial: "Comercial",
+};
+
 export default function PropertyCard({ property }: PropertyCardProps) {
   return (
     <Link
@@ -40,7 +46,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         />
         {/* Type Badge */}
         <span className="absolute top-4 left-4 bg-navy-900/90 backdrop-blur-sm text-cream-50 text-[10px] font-medium tracking-[0.15em] uppercase px-3 py-1.5">
-          {property.type === "apartamento" ? "Apartamento" : "Casa"}
+          {TIPO_LABEL[property.type] ?? property.type}
         </span>
         {/* Contract Type Badge */}
         {property.contractType && (
@@ -83,11 +89,13 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-2 pt-4 border-t border-cream-200">
-          <StatItem icon={<BedDouble size={14} />} value={property.bedrooms} label="Quartos" />
+        <div className={`grid gap-2 pt-4 border-t border-cream-200 ${property.type === "comercial" ? "grid-cols-3" : "grid-cols-4"}`}>
+          <StatItem icon={<Maximize2 size={14} />} value={`${property.area}m²`} label="Área" />
+          {property.type !== "comercial" && (
+            <StatItem icon={<BedDouble size={14} />} value={property.bedrooms} label="Quartos" />
+          )}
           <StatItem icon={<Bath size={14} />} value={property.bathrooms} label="Banheiros" />
           <StatItem icon={<Car size={14} />} value={property.parkingSpots} label="Vagas" />
-          <StatItem icon={<Maximize2 size={14} />} value={`${property.area}m²`} label="Área" />
         </div>
       </div>
     </Link>

@@ -22,6 +22,7 @@ export default async function AdminDashboard() {
     (p) => p.type === "apartamento",
   ).length;
   const casas = properties.filter((p) => p.type === "casa").length;
+  const comercial = properties.filter((p) => p.type === "comercial").length;
   const destaques = properties.filter((p) => p.featured).length;
 
   const stats = [
@@ -38,6 +39,12 @@ export default async function AdminDashboard() {
       color: "bg-gold-500 text-cream-50",
     },
     {
+      label: "Comercial",
+      value: comercial,
+      icon: Building2,
+      color: "bg-emerald-500 text-cream-50",
+    },
+    {
       label: "Casas",
       value: casas,
       icon: Home,
@@ -52,6 +59,12 @@ export default async function AdminDashboard() {
   ];
 
   const recent = [...properties].slice(0, 5);
+
+  const TIPO_STYLE: Record<string, string> = {
+    apartamento: "bg-blue-50 text-blue-600",
+    casa: "bg-emerald-50 text-emerald-600",
+    comercial: "bg-purple-50 text-purple-600",
+  };
 
   const STATUS_STYLE: Record<string, string> = {
     disponivel: "bg-emerald-50 text-emerald-600",
@@ -157,9 +170,8 @@ export default async function AdminDashboard() {
                 {/* Tipo */}
                 <span
                   className={`shrink-0 text-[10px] font-medium px-2 py-1 font-body uppercase tracking-wide ${
-                    p.type === "apartamento"
-                      ? "bg-blue-50 text-blue-600"
-                      : "bg-emerald-50 text-emerald-600"
+                    TIPO_STYLE[p.type ?? "apartamento"] ??
+                    "bg-gray-50 text-gray-500"
                   }`}
                 >
                   {p.type}
