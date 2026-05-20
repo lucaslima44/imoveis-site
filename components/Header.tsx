@@ -29,14 +29,16 @@ export default function Header() {
     setMobileOpen(false);
   }, [pathname]);
 
-  // Sempre mostrar um fundo sutil para garantir visibilidade
-  const headerBackground = scrolled
-    ? "bg-cream-50/95 backdrop-blur-sm shadow-[0_2px_24px_rgba(15,30,43,0.08)]"
-    : "bg-cream-50/60 backdrop-blur-sm";
-
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${headerBackground}`}
+      className="
+        fixed top-0 left-0 right-0 z-50
+        bg-[#F8F6F2]/95
+        backdrop-blur-md
+        border-b border-black/5
+        shadow-[0_2px_24px_rgba(15,30,43,0.05)]
+        transition-all duration-300
+"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="flex items-center justify-between h-20">
@@ -68,10 +70,8 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-            <Button asChild size="md" className="ml-2">
-              <Link href="/imoveis">
-                Ver Imóveis
-              </Link>
+            <Button asChild size="md" className="ml-2 rounded-full">
+              <Link href="/imoveis">Ver Imóveis</Link>
             </Button>
           </nav>
 
@@ -107,9 +107,7 @@ export default function Header() {
             </Link>
           ))}
           <Button asChild size="sm" className="mt-3 w-full justify-center">
-            <Link href="/imoveis">
-              Ver Imóveis
-            </Link>
+            <Link href="/imoveis">Ver Imóveis</Link>
           </Button>
         </nav>
       </div>

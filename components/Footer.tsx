@@ -26,7 +26,7 @@ export default function Footer() {
           </div>
           <Link
             href="/imoveis"
-            className="shrink-0 border border-gold-400 text-gold-400 px-8 py-3 text-xs font-medium tracking-[0.2em] uppercase hover:bg-gold-500 hover:text-cream-50 hover:border-gold-500 transition-all duration-300"
+            className="shrink-0 border border-gold-400 text-gold-400 px-8 py-3 text-xs font-medium tracking-[0.2em] uppercase hover:bg-gold-500 hover:text-cream-50 hover:border-gold-500 transition-all duration-300 "
           >
             Ver Todos os Imóveis
           </Link>

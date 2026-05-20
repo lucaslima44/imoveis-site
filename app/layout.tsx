@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Montserrat, Poppins, Inter } from 'next/font/google'
+import { Montserrat, Poppins, Inter, Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import SiteShell from "@/components/SiteShell";
 
@@ -21,6 +21,13 @@ const poppins = Poppins({
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
+  display: 'swap',
+})
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-plus-jakarta',
+  weight: ['400', '500', '600', '700', '800'],
   display: 'swap',
 })
 

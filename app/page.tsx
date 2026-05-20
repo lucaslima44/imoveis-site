@@ -47,27 +47,57 @@ export default async function Home() {
       <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1920&q=85" alt="Imóvel de luxo" fill className="object-cover" priority={true}  />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy-900/80 via-navy-900/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy-900/70 via-navy-900/45 to-transparent" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full">
-          <div className="max-w-2xl">
+  <div className="max-w-4xl">
             <p className="section-label mb-4 opacity-0 animate-fade-up">
               Sua imobiliária de confiança no Capão Redondo
             </p>
-            <h1 className="font-body heading-display text-cream-50 text-5xl md:text-6xl lg:text-7xl mb-6 opacity-0 animate-fade-up delay-100">
-              Encontre o Lugar<br />
-              <span className="font-inter text-gold-400 ">Perfeito</span> para Viver
-            </h1>
-            <p className="font-poppins text-cream-200 text-lg leading-relaxed mb-10 max-w-lg opacity-0 animate-fade-up delay-200">
-              Capão Redondo, Parque Fernanda e Zona Sul de SP.
-              Apartamentos COHAB, casas e muito mais — atendimento pelo WhatsApp ou marque um horário!
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-up delay-300">
-              <Link href="/imoveis" className="bg-gold-500 text-cream-50 px-8 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm hover:bg-gold-400 transition-colors duration-300 flex items-center justify-center gap-2 group">
+<h1
+  className="
+    font-jakarta
+    text-[clamp(2.8rem,8vw,6.2rem)]
+    sm:text-[clamp(3.5rem,7vw,6.5rem)]
+    font-semibold
+    leading-[0.95]
+    sm:leading-[0.92]
+    tracking-[-0.04em]
+    text-zinc-100
+    max-w-[950px]
+  "
+>
+  Encontre o Lugar
+  <br />
+
+  <span className="text-[#C89B47]">
+    Perfeito
+  </span>{" "}
+  para Viver
+</h1>
+<p
+  className="
+    mt-8
+    font-body
+    text-base
+    md:text-lg
+    leading-relaxed
+    text-zinc-200
+    max-w-[340px]
+    sm:max-w-[680px]
+  "
+>
+  Capão Redondo, Parque Fernanda e Zona Sul de SP.
+  Apartamentos COHAB, casas e muito mais —
+  atendimento pelo WhatsApp ou marque um horário!
+</p>
+
+            <div className="mt-10 flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-up delay-300">
+              <Link href="/imoveis" className="bg-gold-500 text-cream-50 px-8 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm hover:bg-gold-400 transition-colors duration-300 flex items-center justify-center gap-2 group rounded-full">
                 Ver todos Imóveis
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link href="/quem-somos" className="border border-cream-50/60 text-cream-50 px-8 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm hover:bg-cream-50 hover:text-navy-900 transition-all duration-300 flex items-center justify-center">
+              <Link href="/quem-somos" className="rounded-full border border-cream-50/60 text-cream-50 px-8 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm hover:bg-cream-50 hover:text-navy-900 transition-all duration-300 flex items-center justify-center">
                 Quem Somos
               </Link>
             </div>
@@ -152,7 +182,7 @@ export default async function Home() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <Image src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=85" alt="Casa" fill className="object-cover" />
-          <div className="absolute inset-0 bg-navy-900/85" />
+          <div className="absolute inset-0 bg-navy-900/65" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 py-24 text-center">
           <p className="section-label mb-4">Atendimento Personalizado</p>
@@ -166,7 +196,7 @@ export default async function Home() {
           <a
             href={`https://wa.me/5511997111030?text=${encodeURIComponent("Olá! Gostaria de saber mais sobre os imóveis disponíveis no Capão Redondo e Parque Fernanda.")}`}
             target="_blank" rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-gold-500 text-cream-50 px-10 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm hover:bg-gold-400 transition-colors duration-300"
+            className="rounded-full inline-flex items-center gap-2 bg-gold-500 text-cream-50 px-10 py-4 font-body font-medium tracking-[0.1em] uppercase text-sm hover:bg-gold-400 transition-colors duration-300"
           >
             Falar no WhatsApp <ArrowRight size={16} />
           </a>

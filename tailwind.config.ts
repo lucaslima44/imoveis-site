@@ -39,6 +39,7 @@ const config: Config = {
         montserrat: ["var(--font-montserrat)", "sans-serif"],
         poppins: ["var(--font-poppins)", "sans-serif"],
         inter: ["var(--font-inter)", "sans-serif"],
+        jakarta: ["var(--font-plus-jakarta-sans)", "sans-serif"],
       },
       animation: {
         "fade-up": "fadeUp 0.6s ease forwards",
