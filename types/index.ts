@@ -17,6 +17,8 @@ export interface Property {
   images: string[];
   featured?: boolean;
   status?: "disponivel" | "vendido" | "reservado";
+  iptu?: number;
+  condominiumFee?: number;
 }
 
 // ── Supabase row → Property ────────────────────────────────────────────────
@@ -55,6 +57,8 @@ export function dbRowToProperty(row: any): Property {
     images,
     featured: row.featured === true,
     status: (row.status as Property["status"]) ?? "disponivel",
+    iptu: Number(row.iptu ?? 0) || undefined,
+    condominiumFee: Number(row.condominium_fee ?? 0) || undefined,
   };
 }
 
@@ -79,5 +83,7 @@ export function propertyToDbRow(p: Omit<Property, "id">) {
     images: Array.isArray(p.images) ? p.images : [],  // jsonb: array direto
     featured: p.featured === true,
     status: p.status ?? "disponivel",
+    iptu: p.iptu ?? null,
+    condominium_fee: p.condominiumFee ?? null,
   };
 }

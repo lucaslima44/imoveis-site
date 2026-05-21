@@ -51,6 +51,8 @@ const emptyForm: FormData = {
   description: "",
   featured: false,
   status: "disponivel",
+  iptu: 0,
+  condominiumFee: 0,
 };
 
 function Field({
@@ -226,6 +228,8 @@ export default function PropertyForm({
           bedrooms: Number(form.bedrooms),
           bathrooms: Number(form.bathrooms),
           parkingSpots: Number(form.parkingSpots),
+          iptu: Number(form.iptu),
+          condominiumFee: Number(form.condominiumFee),
         }),
       });
 
@@ -481,6 +485,28 @@ export default function PropertyForm({
               onChange={(e) => update("parkingSpots", Number(e.target.value))}
               min={0}
               max={20}
+            />
+          </Field>
+
+          <Field label="IPTU Mensal (R$)">
+            <Input
+              type="number"
+              value={form.iptu || ""}
+              onChange={(e) => update("iptu", Number(e.target.value) || 0)}
+              placeholder="Ex: 450"
+              min={0}
+              step="0.01"
+            />
+          </Field>
+
+          <Field label="Condomínio Mensal (R$)">
+            <Input
+              type="number"
+              value={form.condominiumFee || ""}
+              onChange={(e) => update("condominiumFee", Number(e.target.value) || 0)}
+              placeholder="Ex: 550"
+              min={0}
+              step="0.01"
             />
           </Field>
 

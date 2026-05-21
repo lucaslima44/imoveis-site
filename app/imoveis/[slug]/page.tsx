@@ -141,6 +141,8 @@ function Detail({ property }: { property: Property }) {
                         ["Banheiros", String(property.bathrooms)],
                         ["Vagas", String(property.parkingSpots)],
                       ]),
+                  ...(property.iptu ? [["IPTU Mensal", formatPrice(property.iptu)]] : []),
+                  ...(property.condominiumFee ? [["Condomínio Mensal", formatPrice(property.condominiumFee)]] : []),
                 ].map(([label, val]) => (
                   <li key={label} className="flex justify-between items-center text-sm font-body border-b border-cream-200 py-3 last:border-0">
                     <span className="text-navy-500">{label}</span>
