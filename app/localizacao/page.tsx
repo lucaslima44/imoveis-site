@@ -49,7 +49,7 @@ const howToArrive = [
   {
     icon: Train,
     mode: "Metrô",
-    desc: 'Linha 5-Lilás (Capão Redondo). Desça na estação Capão Redondo e pegue um ônibus até a Estrada de Itapecerica 6740.',
+    desc: 'Linha 5-Lilás (Capão Redondo). Desça na estação Capão Redondo e pegue um ônibus até a Estrada de Itapecerica 6698, ponto do antigo Supermercado Dia.',
   },
   {
     icon: Car,
@@ -97,7 +97,7 @@ export default function LocalizacaoPage() {
               />
             </div>
             <a
-              href="https://maps.google.com/?q=Estrada+de+Itapecerica+Capão+Redondo+São+Paulo"
+              href="https://maps.app.goo.gl/8DeNrVFyB77XU7Yu7"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 inline-flex items-center gap-2 text-sm font-body text-navy-500 hover:text-gold-500 transition-colors duration-200"

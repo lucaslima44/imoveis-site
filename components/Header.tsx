@@ -43,17 +43,28 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-40 h-40">
-              <Image
-                src="/logo.png"
-                alt="VA. Lima Imóveis"
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-          </Link>
+          <Link
+  href="/"
+  className="group flex items-center"
+>
+  <div
+    className="
+      relative w-40 h-40
+      transition-all duration-300 ease-out
+      group-hover:scale-[1.03]
+      group-hover:-translate-y-[1px]
+      group-hover:opacity-90
+    "
+  >
+    <Image
+      src="/logo.png"
+      alt="VA. Lima Imóveis"
+      fill
+      className="object-contain"
+      priority
+    />
+  </div>
+</Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
