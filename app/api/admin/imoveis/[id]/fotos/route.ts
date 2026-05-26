@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { uploadPhoto, removePhoto, getProperty } from "@/lib/properties-store";
+import { uploadPhoto, removePhoto, findByIdAdmin  } from "@/lib/properties-store";
 
 interface Params { params: { id: string } }
 
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest, { params }: Params) {
   }
 
   try {
-    const result = await getProperty(params.id);
+    const result = await findByIdAdmin(params.id);
     revalidatePath(`/imoveis/${params.id}`);
     if (errors.length > 0) {
       return NextResponse.json({ ...result, warnings: errors });
