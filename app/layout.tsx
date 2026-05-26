@@ -212,6 +212,10 @@ export default function RootLayout({
         ${plusJakarta.variable}
       `}
     >
+      <head>
+        <link rel="icon" type="image/png" href="/favicon.png?v=1" />
+      </head>
+
       <body className="min-h-screen bg-cream-100 font-body">
         <Script
           id="json-ld"
