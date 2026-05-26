@@ -39,16 +39,15 @@ const plusJakarta = Plus_Jakarta_Sans({
 })
 
 const SITE_NAME = 'V.A Lima Imóveis'
+
+/*
+  Enquanto o domínio oficial não estiver comprado,
+  use a URL atual da Vercel.
+*/
 const SITE_URL = 'https://imoveis-site.vercel.app'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
-  },
 
   title: {
     template: `%s | ${SITE_NAME}`,
@@ -82,6 +81,41 @@ export const metadata: Metadata = {
 
   alternates: {
     canonical: '/',
+  },
+
+  /*
+    FAVICONS / IOS / ANDROID / PWA
+  */
+  manifest: '/site.webmanifest',
+
+  appleWebApp: {
+    title: SITE_NAME,
+  },
+
+  icons: {
+    icon: [
+      {
+        url: '/favicon.ico',
+      },
+      {
+        url: '/favicon-96x96.png',
+        sizes: '96x96',
+        type: 'image/png',
+      },
+      {
+        url: '/favicon.svg',
+        type: 'image/svg+xml',
+      },
+    ],
+
+    shortcut: '/favicon.ico',
+
+    apple: [
+      {
+        url: '/apple-touch-icon.png',
+        sizes: '180x180',
+      },
+    ],
   },
 
   openGraph: {
@@ -123,10 +157,11 @@ const jsonLd = {
   '@type': 'RealEstateAgent',
 
   name: 'V.A Lima Imóveis',
+
   alternateName: 'V.A Lima Imobiliária',
 
   description:
-    'Imobiliária de bairro no Capão Redondo e Parque Fernanda, Zona Sul de São Paulo. Especializada em apartamentos COHAB e imóveis residenciais próximos à Estrada de Itapecerica, Sonda e UNASP.',
+    'Imobiliária de bairro no Capão Redondo e Parque Fernanda, Zona Sul de São Paulo. Especializada em apartamentos e imóveis residenciais próximos à Estrada de Itapecerica, Sonda e UNASP.',
 
   url: SITE_URL,
 
@@ -136,22 +171,30 @@ const jsonLd = {
 
   address: {
     '@type': 'PostalAddress',
+
     streetAddress: 'Rua Silvia de Faria Marcondes 400 Sala 01 B',
+
     addressLocality: 'São Paulo',
+
     addressRegion: 'SP',
+
     postalCode: '05889-410',
+
     addressCountry: 'BR',
   },
 
   geo: {
     '@type': 'GeoCoordinates',
+
     latitude: '-23.670147',
+
     longitude: '-46.788527',
   },
 
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
+
       dayOfWeek: [
         'Monday',
         'Tuesday',
@@ -159,7 +202,9 @@ const jsonLd = {
         'Thursday',
         'Friday',
       ],
+
       opens: '09:00',
+
       closes: '17:00',
     },
   ],
@@ -212,10 +257,6 @@ export default function RootLayout({
         ${plusJakarta.variable}
       `}
     >
-      <head>
-        <link rel="icon" type="image/png" href="/favicon.png?v=1" />
-      </head>
-
       <body className="min-h-screen bg-cream-100 font-body">
         <Script
           id="json-ld"
