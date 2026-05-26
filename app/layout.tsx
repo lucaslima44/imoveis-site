@@ -35,6 +35,9 @@ const SITE_NAME = "VA. Lima Imóveis";
 const SITE_URL = "https://www.valimaimoveis.com.br";
 
 export const metadata: Metadata = {
+    icons: {
+    icon: '/favicon.ico',
+  },
   title: {
     template: `%s | ${SITE_NAME}`,
     default: `${SITE_NAME} — Imobiliária no Capão Redondo, Zona Sul de SP`,
