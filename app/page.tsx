@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: "Imobiliária no Capão Redondo e Parque Fernanda — Zona Sul SP",
+  title: "V.A Lima Imóveis | Sua imobiliária no Capão Redondo",
   description:
     "VA. Lima Imóveis: apartamentos COHAB, casas e imóveis no Capão Redondo e Parque Fernanda, Zona Sul de São Paulo. Próximos ao UNASP, Sonda e Estrada de Itapecerica. Atendimento pelo WhatsApp!",
   alternates: { canonical: "/" },
