@@ -136,7 +136,7 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: '/logo.png',
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'V.A Lima Imóveis — Capão Redondo, Zona Sul SP',
