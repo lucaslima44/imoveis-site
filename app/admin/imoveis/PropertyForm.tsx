@@ -254,8 +254,8 @@ export default function PropertyForm({
     const validFiles: File[] = [];
     const errors: string[] = [];
 
-    if (files.length > 12) {
-      alert("Máximo de 12 fotos por vez.");
+    if (files.length > 25) {
+      alert("Máximo de 25 fotos por vez.");
       e.target.value = "";
       return;
     }
@@ -265,8 +265,8 @@ export default function PropertyForm({
         errors.push(`${file.name}: formato não permitido`);
         continue;
       }
-      if (file.size > 7 * 1024 * 1024) {
-        errors.push(`${file.name}: excede 7 MB`);
+      if (file.size > 20 * 1024 * 1024) {
+        errors.push(`${file.name}: excede 20 MB`);
         continue;
       }
       validFiles.push(file);
@@ -744,7 +744,7 @@ export default function PropertyForm({
           )}
 
           <p className="font-body text-xs text-gray-400 mt-3">
-            JPG, PNG, WEBP ou AVIF · Máx 7 MB por foto · Máx 12 fotos por vez · Salve após reordenar para confirmar.
+            JPG, PNG, WEBP ou AVIF · Máx 20 MB por foto · Máx 25 fotos por vez · Salve após reordenar para confirmar.
           </p>
         </div>
       )}
