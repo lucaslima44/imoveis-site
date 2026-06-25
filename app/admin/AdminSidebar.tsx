@@ -41,7 +41,7 @@ export default function AdminSidebar({ username }: { username: string }) {
       {/* Logo */}
       <div className="px-6 py-6 border-b border-gray-100">
         <p className="font-display text-lg font-semibold text-navy-900 tracking-tight">
-          VA. Lima
+          V.A Lima
         </p>
         <p className="font-body text-[9px] font-medium tracking-[0.25em] text-gold-500 uppercase mt-0.5">
           Painel Admin
@@ -103,7 +103,7 @@ export default function AdminSidebar({ username }: { username: string }) {
       {/* Mobile topbar */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between">
         <p className="font-display text-base font-semibold text-navy-900">
-          VA. Lima Admin
+          V.A Lima Admin
         </p>
         <button
           onClick={() => setOpen(!open)}
