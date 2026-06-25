@@ -5,7 +5,7 @@ import { uploadPhoto, removePhoto, findByIdAdmin  } from "@/lib/properties-store
 interface Params { params: { id: string } }
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"];
-const MAX_SIZE = 7 * 1024 * 1024;
+const MAX_SIZE = 20 * 1024 * 1024;
 
 export async function POST(req: NextRequest, { params }: Params) {
   let formData: FormData;
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest, { params }: Params) {
     if (!ALLOWED_TYPES.includes(file.type))
       return NextResponse.json({ error: "Use JPG, PNG, WEBP ou AVIF." }, { status: 422 });
     if (file.size > MAX_SIZE)
-      return NextResponse.json({ error: "Máximo 8 MB." }, { status: 422 });
+      return NextResponse.json({ error: "Máximo 20 MB." }, { status: 422 });
 
     try {
       const result = await uploadPhoto(params.id, file);
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest, { params }: Params) {
       continue;
     }
     if (file.size > MAX_SIZE) {
-      errors.push(`${file.name}: excede 8 MB`);
+      errors.push(`${file.name}: excede 20 MB`);
       continue;
     }
     try {
