@@ -40,7 +40,7 @@ const contactInfo = [
     icon: Clock,
     label: "Horário",
     value: "Seg – Sex: 9h às 17h",
-    sub: "Sáb e Dom: Fechado",
+    sub: "Sáb, Dom e Feriados: Fechado",
     href: null,
   },
 ];
