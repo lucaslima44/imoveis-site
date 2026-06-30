@@ -5,6 +5,7 @@ import { WhatsAppProvider } from "@/components/WhatsAppContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
 
 function SiteContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -37,6 +38,7 @@ function SiteContent({ children }: { children: React.ReactNode }) {
       <main>{children}</main>
       <Footer />
       <WhatsAppButton />
+      <CookieConsentBanner />
     </>
   );
 }
