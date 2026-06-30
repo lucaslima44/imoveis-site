@@ -13,10 +13,10 @@ export const revalidate = 0;
 export const metadata: Metadata = {
   title: "V.A Lima Imóveis | Sua imobiliária no Capão Redondo",
   description:
-    "VA. Lima Imóveis: apartamentos, casas e imóveis no Capão Redondo e Parque Fernanda, Zona Sul de São Paulo. Próximos ao UNASP, Sonda e Estrada de Itapecerica. Atendimento pelo WhatsApp!",
+    "V.A Lima Imóveis: apartamentos, casas e imóveis no Capão Redondo e Parque Fernanda, Zona Sul de São Paulo. Próximos ao UNASP, Sonda e Estrada de Itapecerica. Atendimento pelo WhatsApp!",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "VA. Lima Imóveis — Imobiliária no Capão Redondo, Zona Sul SP",
+    title: "V.A Lima Imóveis — Imobiliária no Capão Redondo, Zona Sul SP",
     description:
       "Apartamentos, casas e imóveis no Capão Redondo e Parque Fernanda. Próximos ao UNASP e Estrada de Itapecerica. Fale pelo WhatsApp!",
   },

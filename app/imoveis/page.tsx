@@ -9,7 +9,7 @@ export const revalidate = 0;
 export const metadata: Metadata = {
   title: "Imóveis Disponíveis",
   description:
-    "Veja todos os imóveis disponíveis da VA. Lima Imóveis no Capão Redondo e Parque Fernanda.",
+    "Veja todos os imóveis disponíveis da V.A Lima Imóveis no Capão Redondo e Parque Fernanda.",
 };
 
 export default async function ImoveisPage() {

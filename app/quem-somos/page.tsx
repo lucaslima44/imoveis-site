@@ -5,9 +5,9 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Quem Somos",
   description:
-    "Conheça a VA. Lima Imóveis — imobiliária de bairro no Capão Redondo e Parque Fernanda, Zona Sul de São Paulo. Nossa história, missão e o time dedicado a encontrar o imóvel certo para você.",
+    "Conheça a V.A Lima Imóveis — imobiliária de bairro no Capão Redondo e Parque Fernanda, Zona Sul de São Paulo. Nossa história, missão e o time dedicado a encontrar o imóvel certo para você.",
   openGraph: {
-    title: "Quem Somos | VA. Lima Imóveis — Capão Redondo SP",
+    title: "Quem Somos | V.A Lima Imóveis — Capão Redondo SP",
     description:
       "Imobiliária de confiança no Capão Redondo e Parque Fernanda, Zona Sul de SP. Conheça nossa história e nosso time.",
   },
@@ -131,7 +131,7 @@ export default function QuemSomos() {
             <div className="relative h-80 lg:h-[480px] overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80"
-                alt="Equipe VA. Lima Imóveis"
+                alt="Equipe V.A Lima Imóveis"
                 fill
                 className="object-cover"
               />

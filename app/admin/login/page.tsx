@@ -42,7 +42,7 @@ export default function AdminLoginPage() {
         {/* Logo */}
         <div className="text-center mb-10">
           <p className="font-display text-2xl font-semibold text-cream-50 tracking-tight">
-            VA. Lima
+            V.A Lima
           </p>
           <p className="font-body text-[10px] font-medium tracking-[0.3em] text-gold-400 uppercase mt-0.5">
             Imóveis

@@ -58,7 +58,7 @@ export default function Header() {
   >
     <Image
       src="/logo.png"
-      alt="VA. Lima Imóveis"
+      alt="V.A Lima Imóveis"
       fill
       className="object-contain"
       priority

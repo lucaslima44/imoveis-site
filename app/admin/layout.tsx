@@ -3,7 +3,7 @@ import { getSessionFromCookie } from "@/lib/auth";
 import AdminSidebar from "./AdminSidebar";
 
 export const metadata = {
-  title: { template: "%s | Admin VA. Lima", default: "Admin VA. Lima Imóveis" },
+  title: { template: "%s | Admin V.A Lima", default: "Admin V.A Lima Imóveis" },
   robots: { index: false, follow: false },
 };
 

@@ -20,7 +20,7 @@ function SiteContent({ children }: { children: React.ReactNode }) {
       return "Olá! Quero buscar imóveis no site. Pode me ajudar a encontrar o que procuro?";
     }
     if (pathname === "/quem-somos") {
-      return "Olá! Gostaria de saber mais sobre a VA. Lima Imóveis.";
+      return "Olá! Gostaria de saber mais sobre a V.A Lima Imóveis.";
     }
     if (pathname === "/localizacao") {
       return "Olá! Quero saber mais sobre a localização da imobiliária.";

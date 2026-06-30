@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Localização",
   description:
-    "Encontre a VA. Lima Imóveis no Capão Redondo — Parque Fernanda, Zona Sul de SP. Próximos ao UNASP e Estrada de Itapecerica.",
+    "Encontre a V.A Lima Imóveis no Capão Redondo — Parque Fernanda, Zona Sul de SP. Próximos ao UNASP e Estrada de Itapecerica.",
 };
 
 const contactInfo = [
@@ -93,7 +93,7 @@ export default function LocalizacaoPage() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Localização VA. Lima Imóveis — Capão Redondo SP"
+                title="Localização V.A Lima Imóveis — Capão Redondo SP"
               />
             </div>
             <a

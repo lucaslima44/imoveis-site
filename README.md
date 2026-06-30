@@ -1,4 +1,4 @@
-# 🏠 VA. Lima Imóveis — Next.js 14 + TypeScript + Supabase
+# 🏠 V.A Lima Imóveis — Next.js 14 + TypeScript + Supabase
 
 Site completo de imobiliária com painel administrativo seguro.
 
