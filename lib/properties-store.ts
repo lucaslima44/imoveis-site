@@ -1,3 +1,4 @@
+import sharp from "sharp";
 import { supabase, supabaseAdmin, TABLE, STORAGE_BUCKET } from "./supabase";
 import { Property, dbRowToProperty, propertyToDbRow } from "@/types";
 
@@ -122,20 +123,80 @@ export async function deleteProperty(id: string): Promise<boolean> {
 
 // ── PHOTOS ─────────────────────────────────────────────────────────────────
 
+async function compressPhotoForStorage(
+  file: File,
+  targetSize = 100 * 1024
+): Promise<{ buffer: Buffer; contentType: string; ext: string }> {
+  const originalBuffer = Buffer.from(await file.arrayBuffer());
+
+  if (originalBuffer.length <= targetSize) {
+    const ext = file.type.split("/")[1].replace("jpeg", "jpg");
+    return {
+      buffer: originalBuffer,
+      contentType: file.type,
+      ext,
+    };
+  }
+
+  const metadata = await sharp(originalBuffer).metadata();
+  const maxDimension = 1600;
+  const initialWidth = metadata.width ? Math.min(metadata.width, maxDimension) : maxDimension;
+  const initialHeight = metadata.height ? Math.min(metadata.height, maxDimension) : undefined;
+  const formats = file.type === "image/png" ? (["webp", "jpeg"] as const) : (["jpeg", "webp"] as const);
+  const widthSteps = [
+    initialWidth,
+    Math.round(initialWidth * 0.8),
+    Math.round(initialWidth * 0.6),
+    Math.round(initialWidth * 0.4),
+    Math.round(initialWidth * 0.2),
+  ];
+
+  for (const format of formats) {
+    for (const width of widthSteps) {
+      const scale = width / (metadata.width ?? initialWidth);
+      const height = metadata.height ? Math.max(1, Math.round((metadata.height ?? 1) * scale)) : initialHeight;
+
+      for (const quality of [82, 72, 62, 52, 42]) {
+        const outputBuffer = await sharp(originalBuffer)
+          .resize({ width, height, fit: "cover", withoutEnlargement: true })
+          .toFormat(format, { quality, progressive: true })
+          .toBuffer();
+
+        if (outputBuffer.length <= targetSize) {
+          return {
+            buffer: outputBuffer,
+            contentType: format === "jpeg" ? "image/jpeg" : "image/webp",
+            ext: format === "jpeg" ? "jpg" : "webp",
+          };
+        }
+      }
+    }
+  }
+
+  const fallbackBuffer = await sharp(originalBuffer)
+    .resize({ width: initialWidth, height: initialHeight, fit: "cover", withoutEnlargement: true })
+    .toFormat("jpeg", { quality: 42, progressive: true })
+    .toBuffer();
+
+  return {
+    buffer: fallbackBuffer,
+    contentType: "image/jpeg",
+    ext: "jpg",
+  };
+}
+
 export async function uploadPhoto(
   propertyId: string,
   file: File
 ): Promise<{ url: string; property: Property }> {
-  const ext = file.type.split("/")[1].replace("jpeg", "jpg");
+  const { buffer, contentType, ext } = await compressPhotoForStorage(file, 100 * 1024);
   const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
   const storagePath = `${propertyId}/${fileName}`;
 
-  const arrayBuffer = await file.arrayBuffer();
-
   const { error: uploadError } = await supabaseAdmin.storage
     .from(STORAGE_BUCKET)
-    .upload(storagePath, arrayBuffer, {
-      contentType: file.type,
+    .upload(storagePath, buffer, {
+      contentType,
       upsert: false,
     });
 

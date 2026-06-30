@@ -23,6 +23,82 @@ function parseCurrency(value: string): number {
   return parseFloat(cleaned) || 0;
 }
 
+async function compressImage(file: File, targetSize = 100 * 1024): Promise<File> {
+  if (file.size <= targetSize) return file;
+
+  const objectUrl = URL.createObjectURL(file);
+
+  try {
+    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = () => reject(new Error("Falha ao carregar a imagem."));
+      image.src = objectUrl;
+    });
+
+    const maxDimension = 1600;
+    const scale = Math.min(1, maxDimension / Math.max(img.naturalWidth, img.naturalHeight));
+    const baseWidth = Math.max(1, Math.round(img.naturalWidth * scale));
+    const baseHeight = Math.max(1, Math.round(img.naturalHeight * scale));
+
+    const outputType = file.type === "image/png" || file.type === "image/webp" ? "image/webp" : "image/jpeg";
+    const extension = outputType === "image/jpeg" ? ".jpg" : ".webp";
+
+    const canvas = document.createElement("canvas");
+    const qualitySteps = [0.82, 0.72, 0.62, 0.52, 0.42];
+    const scaleSteps = [1, 0.88, 0.76, 0.64, 0.52];
+
+    for (const scaleStep of scaleSteps) {
+      const width = Math.max(1, Math.round(baseWidth * scaleStep));
+      const height = Math.max(1, Math.round(baseHeight * scaleStep));
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return file;
+
+      ctx.drawImage(img, 0, 0, width, height);
+
+      for (const quality of qualitySteps) {
+        const blob = await new Promise<Blob | null>((resolve) => {
+          canvas.toBlob((result) => resolve(result), outputType, quality);
+        });
+
+        if (blob && blob.size <= targetSize) {
+          return new File([blob], `${file.name.replace(/\.[^.]+$/, "")}${extension}`, {
+            type: outputType,
+            lastModified: Date.now(),
+          });
+        }
+      }
+    }
+
+    const fallbackBlob = await new Promise<Blob | null>((resolve) => {
+      canvas.width = baseWidth;
+      canvas.height = baseHeight;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        resolve(null);
+        return;
+      }
+      ctx.drawImage(img, 0, 0, baseWidth, baseHeight);
+      canvas.toBlob((result) => resolve(result), outputType, 0.35);
+    });
+
+    if (fallbackBlob) {
+      return new File([fallbackBlob], `${file.name.replace(/\.[^.]+$/, "")}${extension}`, {
+        type: outputType,
+        lastModified: Date.now(),
+      });
+    }
+
+    return file;
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
+}
+
 // Função para formatar CEP
 function formatCEP(value: string): string {
   const digits = value.replace(/\D/g, "").slice(0, 8);
@@ -265,8 +341,8 @@ export default function PropertyForm({
         errors.push(`${file.name}: formato não permitido`);
         continue;
       }
-      if (file.size > 20 * 1024 * 1024) {
-        errors.push(`${file.name}: excede 20 MB`);
+      if (file.size > 100 * 1024 * 1024) {
+        errors.push(`${file.name}: excede 100 MB`);
         continue;
       }
       validFiles.push(file);
@@ -283,10 +359,11 @@ export default function PropertyForm({
 
     setUploading(true);
 
-    // Envia cada foto individualmente
+    // Envia cada foto individualmente com compactação automática para ~100 KB
     for (const file of validFiles) {
       const fd = new FormData();
-      fd.append("foto", file);
+      const compressedFile = await compressImage(file, 100 * 1024);
+      fd.append("foto", compressedFile);
 
       try {
         const res = await fetch(
@@ -744,7 +821,7 @@ export default function PropertyForm({
           )}
 
           <p className="font-body text-xs text-gray-400 mt-3">
-            JPG, PNG, WEBP ou AVIF · Máx 20 MB por foto · Máx 25 fotos por vez · Salve após reordenar para confirmar.
+            JPG, PNG, WEBP ou AVIF · Compactação automática para ~100 KB por foto · Máx 20 MB por envio · Máx 25 fotos por vez · Salve após reordenar para confirmar.
           </p>
         </div>
       )}
