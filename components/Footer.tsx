@@ -144,7 +144,7 @@ export default function Footer() {
           <p className="text-cream-300 text-xs">
             © {year} VA. Lima Imóveis. Todos os direitos reservados.
           </p>
-          <p className="text-cream-300 text-xs">CRECI: SP</p>
+          <p className="text-cream-300 text-xs">CRECI: 217476-F / SP</p>
         </div>
       </div>
     </footer>
