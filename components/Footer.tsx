@@ -6,6 +6,7 @@ const navLinks = [
   { href: "/imoveis", label: "Imóveis" },
   { href: "/quem-somos", label: "Quem Somos" },
   { href: "/localizacao", label: "Localização" },
+  { href: "/politica-de-privacidade", label: "Política de Privacidade" },
 ];
 
 export default function Footer() {
