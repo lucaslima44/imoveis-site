@@ -44,19 +44,19 @@ export default function CookieConsentBanner() {
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 bg-slate-900/95 px-4 py-4 text-white shadow-2xl">
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div className="fixed bottom-4 left-4 right-4 z-50 rounded-2xl bg-slate-900/95 px-4 py-4 text-white shadow-2xl md:left-4 md:right-auto md:w-[454px] md:max-w-[calc(100%-2rem)] md:h-[160px]">
+      <div className="mx-auto flex h-full flex-col gap-3">
         <div className="max-w-3xl">
-          <p className="text-sm md:text-base">
-            Utilizamos cookies para melhorar sua experiência no site. Escolha como deseja continuar.
+          <p className="text-xs leading-relaxed md:text-sm">
+            Utilizamos cookies para melhorar sua experiência no site. Escolha como deseja continuar. Ao aceitar você concorda com nossa <a href="/politica-de-privacidade" className="text-amber-400 hover:text-amber-300">política de privacidade</a>.
           </p>
         </div>
 
-        <div className="flex flex-col gap-2 sm:flex-row">
+        <div className="flex flex-wrap justify-start gap-2">
           <button
             type="button"
             onClick={() => handleChoice("necessary")}
-            className="rounded-md border border-slate-600 px-3 py-2 text-sm font-semibold text-white transition hover:border-amber-400 hover:text-amber-300"
+            className="rounded-md border border-slate-600 px-3 py-2 text-xs font-semibold text-white transition hover:border-amber-400 hover:text-amber-300 md:text-sm"
           >
             Apenas essenciais
           </button>
@@ -64,7 +64,7 @@ export default function CookieConsentBanner() {
           <button
             type="button"
             onClick={() => handleChoice("rejected")}
-            className="rounded-md border border-slate-600 px-3 py-2 text-sm font-semibold text-white transition hover:border-amber-400 hover:text-amber-300"
+            className="rounded-md border border-slate-600 px-3 py-2 text-xs font-semibold text-white transition hover:border-amber-400 hover:text-amber-300 md:text-sm"
           >
             Rejeitar todos
           </button>
@@ -72,7 +72,7 @@ export default function CookieConsentBanner() {
           <button
             type="button"
             onClick={() => handleChoice("all")}
-            className="rounded-md bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-300"
+            className="rounded-md bg-amber-500 px-4 py-2 text-xs font-semibold text-slate-900 transition hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-300 md:text-sm"
           >
             Aceitar todos
           </button>
