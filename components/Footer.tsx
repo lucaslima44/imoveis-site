@@ -40,7 +40,7 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="mb-6">
               <p className="font-display text-3xl font-semibold text-cream-50 tracking-tight">
-                VA. Lima
+                V.A Lima Imóveis
               </p>
               <p className="font-body text-[10px] font-medium tracking-[0.3em] text-gold-400 uppercase mt-0.5">
                 Imóveis
@@ -142,7 +142,7 @@ export default function Footer() {
       <div className="border-t border-navy-700">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 py-6 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p className="text-cream-300 text-xs">
-            © {year} VA. Lima Imóveis. Todos os direitos reservados.
+            © {year} V.A Lima Imóveis. Todos os direitos reservados.
           </p>
           <p className="text-cream-300 text-xs">CRECI: 217476-F / SP</p>
         </div>
