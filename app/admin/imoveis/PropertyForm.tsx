@@ -4,7 +4,7 @@ import { useState, ChangeEvent, FormEvent, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Property } from "@/types";
 import { Save, ArrowLeft, Upload, X, Star, Loader2, GripVertical, MapPin } from "lucide-react";
-import Image from "next/image";
+import NextImage from "next/image";
 import { Button } from "@/components/Button";
 
 // Função para formatar valor em reais (BRL)
@@ -30,7 +30,7 @@ async function compressImage(file: File, targetSize = 100 * 1024): Promise<File>
 
   try {
     const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-      const image = new Image();
+      const image = new window.Image();
       image.onload = () => resolve(image);
       image.onerror = () => reject(new Error("Falha ao carregar a imagem."));
       image.src = objectUrl;
@@ -93,6 +93,9 @@ async function compressImage(file: File, targetSize = 100 * 1024): Promise<File>
       });
     }
 
+    return file;
+  } catch (error) {
+    console.warn("Falha ao compactar imagem, enviando a original:", error);
     return file;
   } finally {
     URL.revokeObjectURL(objectUrl);
@@ -361,11 +364,11 @@ export default function PropertyForm({
 
     // Envia cada foto individualmente com compactação automática para ~100 KB
     for (const file of validFiles) {
-      const fd = new FormData();
-      const compressedFile = await compressImage(file, 100 * 1024);
-      fd.append("foto", compressedFile);
-
       try {
+        const fd = new FormData();
+        const compressedFile = await compressImage(file, 100 * 1024);
+        fd.append("foto", compressedFile);
+
         const res = await fetch(
           `/api/admin/imoveis/${initialData.id}/fotos`,
           { method: "POST", body: fd }
@@ -377,8 +380,9 @@ export default function PropertyForm({
           const d = await res.json();
           alert(`Erro ao enviar ${file.name}: ${d.error}`);
         }
-      } catch {
-        alert(`Erro de conexão ao enviar ${file.name}.`);
+      } catch (error) {
+        console.error(`Falha no upload de ${file.name}:`, error);
+        alert(`Erro ao processar ${file.name}. Tente novamente com outra imagem.`);
       }
     }
 
@@ -774,7 +778,7 @@ export default function PropertyForm({
                   }`}
                 >
                   <div className="relative aspect-video overflow-hidden bg-gray-100">
-                    <Image
+                    <NextImage
                       src={url}
                       alt={`Foto ${i + 1}`}
                       fill
