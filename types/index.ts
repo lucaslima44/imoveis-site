@@ -21,6 +21,11 @@ export interface Property {
   condominiumFee?: number;
 }
 
+export function normalizeCurrencyValue(value: unknown): number {
+  const numeric = Number(value ?? 0);
+  return Number.isFinite(numeric) ? Math.round(numeric * 100) / 100 : 0;
+}
+
 // ── Supabase row → Property ────────────────────────────────────────────────
 // Coluna "images" é jsonb — o Supabase já entrega como array JS, sem precisar de JSON.parse
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,8 +47,8 @@ export function dbRowToProperty(row: any): Property {
     id: String(row.id),
     title: row.title ?? "",
     type: row.type === "casa" ? "casa" : row.type === "comercial" ? "comercial" : "apartamento",
-    price: Number(row.price ?? 0),
-    rentalPrice: Number(row.rental_price ?? 0) || undefined,
+    price: normalizeCurrencyValue(row.price),
+    rentalPrice: normalizeCurrencyValue(row.rental_price) || undefined,
     contractType: row.contract_type ?? undefined,
     address: row.address ?? "",
     neighborhood: row.neighborhood ?? "",
@@ -57,8 +62,8 @@ export function dbRowToProperty(row: any): Property {
     images,
     featured: row.featured === true,
     status: (row.status as Property["status"]) ?? "disponivel",
-    iptu: Number(row.iptu ?? 0) || undefined,
-    condominiumFee: Number(row.condominium_fee ?? 0) || undefined,
+    iptu: normalizeCurrencyValue(row.iptu) || undefined,
+    condominiumFee: normalizeCurrencyValue(row.condominium_fee) || undefined,
   };
 }
 
@@ -68,8 +73,8 @@ export function propertyToDbRow(p: Omit<Property, "id">) {
   return {
     title: p.title,
     type: p.type,
-    price: p.price,
-    rental_price: p.rentalPrice ?? null,
+    price: normalizeCurrencyValue(p.price),
+    rental_price: normalizeCurrencyValue(p.rentalPrice) ?? null,
     contract_type: p.contractType ?? null,
     address: p.address,
     neighborhood: p.neighborhood,
@@ -83,7 +88,7 @@ export function propertyToDbRow(p: Omit<Property, "id">) {
     images: Array.isArray(p.images) ? p.images : [],  // jsonb: array direto
     featured: p.featured === true,
     status: p.status ?? "disponivel",
-    iptu: p.iptu ?? null,
-    condominium_fee: p.condominiumFee ?? null,
+    iptu: normalizeCurrencyValue(p.iptu) ?? null,
+    condominium_fee: normalizeCurrencyValue(p.condominiumFee) ?? null,
   };
 }

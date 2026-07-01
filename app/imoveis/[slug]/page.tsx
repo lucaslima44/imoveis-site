@@ -14,7 +14,12 @@ import type { Metadata } from "next";
 interface Props { params: { slug: string } }
 
 function formatPrice(price: number) {
-  return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 0 }).format(price);
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(price);
 }
 
 const CONTRACT_LABEL: Record<string, string> = {

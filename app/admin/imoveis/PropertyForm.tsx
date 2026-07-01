@@ -2,7 +2,7 @@
 
 import { useState, ChangeEvent, FormEvent, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Property } from "@/types";
+import { Property, normalizeCurrencyValue } from "@/types";
 import { Save, ArrowLeft, Upload, X, Star, Loader2, GripVertical, MapPin } from "lucide-react";
 import NextImage from "next/image";
 import { Button } from "@/components/Button";
@@ -14,13 +14,13 @@ function formatCurrency(value: number): string {
     currency: "BRL",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).format(value);
+  }).format(normalizeCurrencyValue(value));
 }
 
 // Função para converter valor formatado para número
 function parseCurrency(value: string): number {
   const cleaned = value.replace(/[R$\s.]/g, "").replace(",", ".");
-  return parseFloat(cleaned) || 0;
+  return normalizeCurrencyValue(cleaned);
 }
 
 async function compressImage(file: File, targetSize = 100 * 1024): Promise<File> {
@@ -243,11 +243,8 @@ export default function PropertyForm({
   }
 
   function handlePriceChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value;
-    // Permite apenas dígitos
-    const digits = value.replace(/\D/g, "");
-    const numberValue = parseFloat(digits) || 0;
-    
+    const numberValue = parseCurrency(e.target.value);
+
     setPriceDisplay(formatCurrency(numberValue));
     update("price", numberValue);
   }
@@ -300,15 +297,16 @@ export default function PropertyForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          images,          // sempre envia as imagens atuais (incluindo ordem)
+          images,
           featured: form.featured === true,
-          price: Number(form.price),
+          price: normalizeCurrencyValue(form.price),
+          rentalPrice: normalizeCurrencyValue(form.rentalPrice ?? 0),
           area: Number(form.area),
           bedrooms: Number(form.bedrooms),
           bathrooms: Number(form.bathrooms),
           parkingSpots: Number(form.parkingSpots),
-          iptu: Number(form.iptu),
-          condominiumFee: Number(form.condominiumFee),
+          iptu: normalizeCurrencyValue(form.iptu ?? 0),
+          condominiumFee: normalizeCurrencyValue(form.condominiumFee ?? 0),
         }),
       });
 
@@ -488,7 +486,7 @@ export default function PropertyForm({
               type="number"
               value={form.price || ""}
               onChange={(e) => {
-                const value = Number(e.target.value) || 0;
+                const value = normalizeCurrencyValue(e.target.value);
                 update("price", value);
                 setPriceDisplay(formatCurrency(value));
               }}
@@ -503,7 +501,7 @@ export default function PropertyForm({
               <Input
                 type="number"
                 value={form.rentalPrice || ""}
-                onChange={(e) => update("rentalPrice", Number(e.target.value) || 0)}
+                onChange={(e) => update("rentalPrice", normalizeCurrencyValue(e.target.value))}
                 placeholder="Ex: 2500"
                 min={0}
                 step="0.01"
