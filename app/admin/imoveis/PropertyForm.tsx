@@ -375,7 +375,10 @@ export default function PropertyForm({
         );
         if (res.ok) {
           const d = await res.json();
-          setImages(d.property.images);
+          const uploadedUrl = d.property.images.at(-1);
+          if (uploadedUrl) {
+            setImages((prev) => (prev.includes(uploadedUrl) ? prev : [...prev, uploadedUrl]));
+          }
         } else {
           const d = await res.json();
           alert(`Erro ao enviar ${file.name}: ${d.error}`);
@@ -391,28 +394,9 @@ export default function PropertyForm({
   }
 
   async function handlePhotoRemove(url: string) {
-    if (!initialData?.id) {
-      setImages((i) => i.filter((x) => x !== url));
-      return;
-    }
     setRemoving(url);
     try {
-      const res = await fetch(
-        `/api/admin/imoveis/${initialData.id}/fotos`,
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url }),
-        }
-      );
-      if (res.ok) {
-        const d = await res.json();
-        setImages(d.property.images);
-      } else {
-        alert("Erro ao remover foto.");
-      }
-    } catch {
-      alert("Erro de conexão.");
+      setImages((i) => i.filter((x) => x !== url));
     } finally {
       setRemoving(null);
     }
